@@ -624,9 +624,9 @@ async def clear_stuck_tasks(username: str):
     }
 
 
-# --- [教育模式核心接口：修正自适应路径版] ---
+# --- [HIDDEN FOR REVIEW] 教育模式核心接口 ---
 
-@router.post("/api/edu/parse-zip")
+# @router.post("/api/edu/parse-zip")
 async def parse_edu_zip(file: UploadFile = File(...)):
     """解析教育压缩包统计信息 [自适应层级版]"""
     if not file.filename.lower().endswith('.zip'):
@@ -658,7 +658,7 @@ async def parse_edu_zip(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"解析失败: {str(e)}")
 
-@router.post("/api/edu/confirm-upload")
+# @router.post("/api/edu/confirm-upload")
 async def confirm_edu_upload(
     background_tasks: BackgroundTasks,
     submission_id: str = Form(...),
@@ -736,7 +736,7 @@ async def confirm_edu_upload(
         raise HTTPException(status_code=500, detail=f"结构重组失败: {str(e)}")
 
 
-@router.get("/api/edu/admin/tasks")
+# @router.get("/api/edu/admin/tasks")
 async def get_edu_admin_tasks():
     index_path = SYSTEM_EDU_DIR / "data.json"
     if not index_path.exists(): 
@@ -752,7 +752,7 @@ async def get_edu_admin_tasks():
     }
 
 
-@router.get("/api/admin/inference-stats")
+# @router.get("/api/admin/inference-stats")
 async def get_inference_stats():
     """获取所有任务的模型推理统计（从独立统计文件读取，不受任务删除影响）"""
     total_duration = 0
@@ -778,7 +778,7 @@ async def get_inference_stats():
     }
 
 
-@router.post("/api/edu/publish-task")
+# @router.post("/api/edu/publish-task")
 async def publish_edu_task(submission_id: str = Form(...), target_users: str = Form(...), publish_mode: str = Form("dual")):
     try:
         users = json.loads(target_users)
@@ -807,7 +807,7 @@ async def publish_edu_task(submission_id: str = Form(...), target_users: str = F
         return {"message": f"{mode_msg}已成功发布"}
     except Exception as e: raise HTTPException(status_code=400, detail=f"发布失败: {e}")
 
-@router.get("/api/edu/admin/task-status/{submission_id}")
+# @router.get("/api/edu/admin/task-status/{submission_id}")
 async def get_edu_task_detail_status(submission_id: str):
     """获取特定教育任务下所有发布对象的实时判读进度"""
     index_path = SYSTEM_EDU_DIR / "data.json"
@@ -893,7 +893,7 @@ async def get_edu_task_detail_status(submission_id: str):
     return {"task_name": task["request_name"], "user_statuses": user_status_list}
 
 
-@router.post("/api/edu/admin/unpublish-task")
+# @router.post("/api/edu/admin/unpublish-task")
 async def unpublish_edu_task(submission_id: str = Form(...)):
     """取消发布任务：清空所有用户成绩并更新状态为未发布"""
     index_path = SYSTEM_EDU_DIR / "data.json"
@@ -944,7 +944,7 @@ async def unpublish_edu_task(submission_id: str = Form(...)):
     return {"message": "任务已取消发布，成绩已清空"}
 
 
-@router.get("/api/edu/user/tasks/{username}")
+# @router.get("/api/edu/user/tasks/{username}")
 async def get_user_edu_tasks(username: str):
     index_path = SYSTEM_EDU_DIR / "data.json"
     if not index_path.exists(): return {"tasks": []}
@@ -1017,7 +1017,7 @@ async def get_user_edu_tasks(username: str):
     return {"tasks": user_tasks}
 
 
-@router.get("/api/edu/check-task-status/{submission_id}")
+# @router.get("/api/edu/check-task-status/{submission_id}")
 async def check_task_status(submission_id: str):
     """检查教育任务状态，返回是否有效"""
     # 处理多阶段任务：提取父任务ID
@@ -1042,7 +1042,7 @@ async def check_task_status(submission_id: str):
     return {"valid": True}
 
 
-@router.get("/api/edu/user/result/{username}/{submission_id}")
+# @router.get("/api/edu/user/result/{username}/{submission_id}")
 async def get_user_edu_result(username: str, submission_id: str):
     """
     获取用户教育任务成绩
@@ -1099,7 +1099,7 @@ async def get_user_edu_result(username: str, submission_id: str):
     raise HTTPException(status_code=404)
 
 
-@router.post("/api/edu/trigger-llm-analysis/{username}/{submission_id}")
+# @router.post("/api/edu/trigger-llm-analysis/{username}/{submission_id}")
 async def trigger_llm_analysis(username: str, submission_id: str):
     """
     手动触发AI分析（当自动触发失败时使用）
@@ -1194,7 +1194,7 @@ async def trigger_llm_analysis(username: str, submission_id: str):
 
 
 
-@router.delete("/api/edu/admin/tasks/{submission_id}")
+# @router.delete("/api/edu/admin/tasks/{submission_id}")
 async def delete_edu_task(submission_id: str):
     """
     [管理员特权] 物理删除 SYSTEM 空间下的教育任务及所有关联数据
@@ -1250,7 +1250,7 @@ async def delete_edu_task(submission_id: str):
 
 
 # --- [新增] 清空无效的教育任务 ---
-@router.delete("/api/edu/admin/clear-stuck-tasks")
+# @router.delete("/api/edu/admin/clear-stuck-tasks")
 async def clear_stuck_edu_tasks():
     """
     清理无效的教育任务（卡住的任务）

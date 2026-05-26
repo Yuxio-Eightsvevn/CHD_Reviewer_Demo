@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>用户管理 - 儿童先心病诊断平台</title>
+    <title data-i18n="admin.title">User Management</title>
     <style>
         /* 省略：与原文件相同的 CSS（保持不变） */
         /* 为了便于阅读与维护，实际项目中请保留你原有的完整 CSS 样式 */
@@ -92,9 +92,9 @@
     <div id="mainContent">
         <!-- 顶部导航栏 -->
         <div class="navbar">
-            <div class="navbar-title">👥 用户管理系统</div>
+            <div class="navbar-title" data-i18n="admin.title">👥 User Management</div>
             <div class="navbar-actions">
-                <a href="/flow" class="navbar-btn">返回主页</a>
+                <a href="/flow" class="navbar-btn" data-i18n="admin.backToHome">Back to Home</a>
             </div>
         </div>
 
@@ -102,26 +102,26 @@
         <div class="container">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">用户列表</h1>
-                    <button class="btn btn-primary" onclick="showCreateModal()">➕ 添加用户</button>
+                    <h1 class="card-title" data-i18n="admin.userList">User List</h1>
+                    <button class="btn btn-primary" onclick="showCreateModal()" data-i18n="admin.addUser">➕ Add User</button>
                 </div>
 
                 <div id="alertContainer"></div>
 
                 <div class="table-container">
                     <div id="loadingState" class="loading">
-                        <p>加载中...</p>
+                        <p data-i18n="admin.loading">Loading...</p>
                     </div>
                     <table id="userTable" style="display: none;">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>用户名</th>
-                                <th>医师姓名</th>
-                                <th>所属医院</th>
-                                <th>角色</th>
-                                <th>创建时间</th>
-                                <th>操作</th>
+                                <th data-i18n="admin.id">ID</th>
+                                <th data-i18n="admin.username">Username</th>
+                                <th data-i18n="admin.doctorName">Doctor Name</th>
+                                <th data-i18n="admin.hospital">Hospital</th>
+                                <th data-i18n="admin.role">Role</th>
+                                <th data-i18n="admin.createdAt">Created At</th>
+                                <th data-i18n="admin.actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="userTableBody"></tbody>
@@ -135,44 +135,44 @@
     <div id="userModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">添加用户</h2>
+                <h2 class="modal-title" id="modalTitle" data-i18n="admin.modalTitleAdd">Add User</h2>
             </div>
             <form id="userForm" onsubmit="handleSubmit(event)">
                 <input type="hidden" id="userId" value="">
                 
                 <div class="form-group">
-                    <label class="form-label" for="username">用户名 *</label>
+                    <label class="form-label" for="username" data-i18n="admin.usernameLabel">Username *</label>
                     <input type="text" class="form-control" id="username" required>
-                    <div class="form-help">用户登录账号，创建后不可修改</div>
+                    <div class="form-help" id="usernameHelp" data-i18n="admin.usernameHelp">Login account, cannot be modified after creation</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">密码 *</label>
+                    <label class="form-label" for="password" data-i18n="admin.passwordLabel">Password *</label>
                     <input type="password" class="form-control" id="password" required>
-                    <div class="form-help" id="passwordHelp">至少6位字符</div>
+                    <div class="form-help" id="passwordHelp" data-i18n="admin.passwordHelp">At least 6 characters</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="doctor">医师姓名 *</label>
+                    <label class="form-label" for="doctor" data-i18n="admin.doctorLabel">Doctor Name *</label>
                     <input type="text" class="form-control" id="doctor" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="organization">所属医院 *</label>
+                    <label class="form-label" for="organization" data-i18n="admin.hospitalLabel">Hospital *</label>
                     <input type="text" class="form-control" id="organization" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" style="display: flex; align-items: center; cursor: pointer;">
                         <input type="checkbox" id="isAdmin" style="margin-right: 8px; width: 18px; height: 18px;">
-                        设为管理员
+                        <span data-i18n="admin.setAsAdmin">Set as Administrator</span>
                     </label>
-                    <div class="form-help">管理员可以访问用户管理和教育管理后台</div>
+                    <div class="form-help" data-i18n="admin.adminHelp">Administrators can access user management and education management</div>
                 </div>
 
                 <div class="form-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button>
-                    <button type="submit" class="btn btn-success" id="submitBtn">保存</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()" data-i18n="admin.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="submitBtn" data-i18n="admin.save">Save</button>
                 </div>
             </form>
         </div>
@@ -182,29 +182,29 @@
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">上传任务文件夹</h2>
+                <h2 class="modal-title" data-i18n="admin.uploadTaskZip">Upload Task Folder</h2>
             </div>
             <form id="uploadForm" onsubmit="handleUpload(event)">
                 <input type="hidden" id="uploadUsername" value="">
                 
                 <div class="form-group">
-                    <label class="form-label">选择任务文件夹（ZIP压缩包）</label>
+                    <label class="form-label" data-i18n="admin.selectTaskZip">Select Task Folder (ZIP archive)</label>
                     <input type="file" class="form-control" id="taskZipFile" accept=".zip" required>
-                    <div class="form-help">请将任务文件夹打包为ZIP格式后上传</div>
+                    <div class="form-help" data-i18n="admin.zipHelp">Please package the task folder as ZIP format before uploading</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">上传说明</label>
+                    <label class="form-label" data-i18n="admin.uploadInstructions">Upload Instructions</label>
                     <ul style="font-size: 13px; color: #666; margin-left: 20px;">
-                        <li>压缩包内应包含完整的任务文件夹结构</li>
-                        <li>必须包含 tasks.json 文件和病人视频文件夹</li>
-                        <li>文件将解压到该用户的存储目录下</li>
+                        <li data-i18n="admin.uploadNote1">Archive should contain complete task folder structure</li>
+                        <li data-i18n="admin.uploadNote2">Must include tasks.json file and patient video folders</li>
+                        <li data-i18n="admin.uploadNote3">Files will be extracted to the user's storage directory</li>
                     </ul>
                 </div>
 
                 <div class="form-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeUploadModal()">取消</button>
-                    <button type="submit" class="btn btn-success" id="uploadBtn">开始上传</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUploadModal()" data-i18n="admin.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="uploadBtn" data-i18n="admin.startUpload">Start Upload</button>
                 </div>
             </form>
         </div>
@@ -214,20 +214,20 @@
     <div id="downloadModal" class="modal">
         <div class="modal-content" style="max-width: 700px;">
             <div class="modal-header">
-                <h2 class="modal-title">下载诊断结果</h2>
+                <h2 class="modal-title" data-i18n="admin.downloadDiagnosis">Download Diagnosis Results</h2>
             </div>
             
             <div id="csvLoadingState" class="loading" style="display: none;">
-                <p>加载中...</p>
+                <p data-i18n="admin.loading">Loading...</p>
             </div>
             
             <div id="csvListContainer">
                 <div style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
                     <button class="btn btn-secondary btn-sm" onclick="toggleSelectAll()">
-                        <span id="selectAllText">全选</span>
+                        <span id="selectAllText" data-i18n="admin.selectAll">Select All</span>
                     </button>
                     <button class="btn btn-primary btn-sm" onclick="batchDownload()" id="batchDownloadBtn" disabled>
-                        批量下载 (<span id="selectedCount">0</span>)
+                        <span data-i18n="admin.batchDownload">Batch Download</span> (<span id="selectedCount">0</span>)
                     </button>
                 </div>
                 
@@ -237,10 +237,10 @@
                             <th style="width:50px; text-align:center;">
                                 <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll()" style="cursor:pointer;">
                             </th>
-                            <th>文件名</th>
-                            <th>任务文件夹</th>
-                            <th>修改时间</th>
-                            <th>操作</th>
+                            <th data-i18n="admin.filename">Filename</th>
+                            <th data-i18n="admin.taskFolder">Task Folder</th>
+                            <th data-i18n="admin.modifiedAt">Modified At</th>
+                            <th data-i18n="admin.actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="csvTableBody"></tbody>
@@ -248,7 +248,7 @@
             </div>
 
             <div class="form-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeDownloadModal()">关闭</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDownloadModal()" data-i18n="admin.close">Close</button>
             </div>
         </div>
     </div>
@@ -260,10 +260,41 @@
         let currentCsvFiles = [];
         let selectedFiles = new Set();
         let currentUsername = '';
+        let i18n = {};
+
+        async function loadI18n() {
+            try {
+                const resp = await fetch('UI/i18n/lang_config.json');
+                const langConfig = await resp.json();
+                const resp2 = await fetch('UI/i18n/' + langConfig.current + '.json');
+                i18n = await resp2.json();
+                applyI18n();
+            } catch (e) {
+                console.error('Failed to load i18n:', e);
+            }
+        }
+
+        function t(key, fallback) {
+            const keys = key.split('.');
+            let val = i18n;
+            for (const k of keys) {
+                val = val?.[k];
+            }
+            return val ?? fallback ?? key;
+        }
+
+        function applyI18n() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key, el.textContent);
+            });
+        }
 
         // 页面初始化：如果 session 中已认证，则直接加载用户列表
 window.addEventListener('DOMContentLoaded', () => {
-            loadUsers();
+            loadI18n().then(() => {
+                loadUsers();
+            });
         });
 
         // 验证密码（通过后端 /api/login）
@@ -274,7 +305,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // 简单校验
             if (!password || password.length < 1) {
-                errorDiv.textContent = '请输入管理员密码';
+                errorDiv.textContent = t('admin.enterAdminPassword', 'Please enter admin password');
                 errorDiv.style.display = 'block';
                 setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
                 return;
@@ -301,14 +332,14 @@ window.addEventListener('DOMContentLoaded', () => {
                         return;
                     } else {
                         // 虽然登录成功，但并非 admin 用户（极端情况）
-                        errorDiv.textContent = '仅允许管理员账号访问';
+                        errorDiv.textContent = t('admin.authFailed', 'Only admin accounts are allowed');
                         errorDiv.style.display = 'block';
                         setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
                         return;
                     }
                 } else {
                     // 处理后端返回的错误信息
-                    let errMsg = '验证失败，请重试';
+                    let errMsg = t('admin.authFailed', 'Verification failed, please retry');
                     try {
                         const errData = await resp.json();
                         if (errData && errData.detail) errMsg = errData.detail;
@@ -322,8 +353,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
                 }
             } catch (e) {
-                console.error('网络错误:', e);
-                errorDiv.textContent = '网络错误，无法验证管理员身份';
+                console.error(t('admin.networkError', 'Network error:'), e);
+                errorDiv.textContent = t('admin.authFailed', 'Network error, cannot verify admin identity');
                 errorDiv.style.display = 'block';
                 setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
             }
@@ -337,8 +368,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 users = result.data;
                 renderUserTable();
             } catch (error) {
-                console.error('加载用户列表失败:', error);
-                showAlert('加载用户列表失败', 'danger');
+                console.error(t('admin.loadUsersFailed', 'Failed to load user list:'), error);
+                showAlert(t('admin.loadUsersFailed', 'Failed to load user list'), 'danger');
             }
         }
 
@@ -357,7 +388,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         <td colspan="6" style="text-align: center; padding: 60px;">
                             <div class="empty-state">
                                 <div class="empty-icon">📋</div>
-                                <p>暂无用户数据</p>
+                                <p data-i18n="admin.noUsers">No users</p>
                             </div>
                         </td>
                     </tr>
@@ -373,14 +404,14 @@ window.addEventListener('DOMContentLoaded', () => {
                     <td>${user.organization}</td>
                     <td>
                         ${user.is_admin 
-                            ? '<span style="background:#667eea; color:white; padding:4px 10px; border-radius:12px; font-size:12px;">管理员</span>' 
-                            : '<span style="background:#e9ecef; color:#495057; padding:4px 10px; border-radius:12px; font-size:12px;">普通用户</span>'}
+                            ? '<span style="background:#667eea; color:white; padding:4px 10px; border-radius:12px; font-size:12px;">' + t('admin.admin', 'Admin') + '</span>' 
+                            : '<span style="background:#e9ecef; color:#495057; padding:4px 10px; border-radius:12px; font-size:12px;">' + t('admin.user', 'User') + '</span>'}
                     </td>
                     <td>${formatDate(user.created_at)}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn btn-primary btn-sm" onclick="showEditModal(${user.id})">编辑</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id}, '${user.username}')">删除</button>
+                            <button class="btn btn-primary btn-sm" onclick="showEditModal(${user.id})" data-i18n="admin.edit">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id}, '${user.username}')" data-i18n="admin.delete">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -390,13 +421,13 @@ window.addEventListener('DOMContentLoaded', () => {
         // 显示创建用户模态框
         function showCreateModal() {
             isEditMode = false;
-            document.getElementById('modalTitle').textContent = '添加用户';
+            document.getElementById('modalTitle').textContent = t('admin.modalTitleAdd', 'Add User');
             document.getElementById('userForm').reset();
             document.getElementById('userId').value = '';
             document.getElementById('username').disabled = false;
             document.getElementById('password').required = true;
-            document.getElementById('passwordHelp').textContent = '至少6位字符';
-            document.getElementById('submitBtn').textContent = '创建';
+            document.getElementById('passwordHelp').textContent = t('admin.passwordHelp', 'At least 6 characters');
+            document.getElementById('submitBtn').textContent = t('admin.addUser', 'Create');
             document.getElementById('userModal').classList.add('show');
         }
 
@@ -406,17 +437,17 @@ window.addEventListener('DOMContentLoaded', () => {
             const user = users.find(u => u.id === userId);
             if (!user) return;
 
-            document.getElementById('modalTitle').textContent = '编辑用户';
+            document.getElementById('modalTitle').textContent = t('admin.modalTitleEdit', 'Edit User');
             document.getElementById('userId').value = user.id;
             document.getElementById('username').value = user.username;
             document.getElementById('username').disabled = true;
             document.getElementById('password').value = '';
             document.getElementById('password').required = false;
-            document.getElementById('passwordHelp').textContent = '留空则不修改密码';
+            document.getElementById('passwordHelp').textContent = t('admin.passwordEditHelp', 'Leave empty if not changing');
             document.getElementById('doctor').value = user.doctor;
             document.getElementById('organization').value = user.organization;
             document.getElementById('isAdmin').checked = user.is_admin === true;
-            document.getElementById('submitBtn').textContent = '更新';
+            document.getElementById('submitBtn').textContent = t('admin.update', 'Update');
             document.getElementById('userModal').classList.add('show');
         }
 
@@ -452,35 +483,35 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (response.ok) {
-                    showAlert(isEditMode ? '用户更新成功' : '用户创建成功', 'success');
+                    showAlert(isEditMode ? t('admin.userUpdated', 'User updated') : t('admin.userCreated', 'User created'), 'success');
                     closeModal();
                     await loadUsers();
                 } else {
                     const error = await response.json();
-                    showAlert(error.detail || '操作失败', 'danger');
+                    showAlert(error.detail || t('admin.saveFailed', 'Operation failed'), 'danger');
                 }
             } catch (error) {
-                console.error('操作失败:', error);
-                showAlert('操作失败，请稍后重试', 'danger');
+                console.error(t('admin.operationFailed', 'Operation failed:'), error);
+                showAlert(t('admin.operationFailed', 'Operation failed, please retry later'), 'danger');
             }
         }
 
         // 删除用户
         async function deleteUser(userId, username) {
-            if (!confirm(`确定要删除用户 "${username}" 吗？\n此操作不可恢复！`)) return;
+            if (!confirm(t('admin.confirmDelete', 'Are you sure you want to delete user "{username}"?\nThis action cannot be undone.').replace('{username}', username))) return;
 
             try {
                 const response = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
                 if (response.ok) {
-                    showAlert('用户删除成功', 'success');
+                    showAlert(t('admin.deleteSuccess', 'User deleted successfully'), 'success');
                     await loadUsers();
                 } else {
                     const error = await response.json();
-                    showAlert(error.detail || '删除失败', 'danger');
+                    showAlert(error.detail || t('admin.deleteFailed', 'Delete failed'), 'danger');
                 }
             } catch (error) {
-                console.error('删除失败:', error);
-                showAlert('删除失败，请稍后重试', 'danger');
+                console.error(t('admin.deleteFailed', 'Delete failed:'), error);
+                showAlert(t('admin.deleteFailed', 'Delete failed, please retry later'), 'danger');
             }
         }
 
@@ -512,7 +543,7 @@ window.addEventListener('DOMContentLoaded', () => {
             toast.innerHTML = `
                 <div class="upload-toast-header">
                     <div class="upload-toast-title">
-                        <span>📤</span><span>上传任务文件</span>
+                        <span>📤</span><span>${t('admin.uploadTask', 'Upload Task Files')}</span>
                     </div>
                     <button class="upload-toast-close" onclick="closeUploadToast()">×</button>
                 </div>
@@ -523,7 +554,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="upload-status-container uploading">
                         <span class="spinner"></span>
-                        <span>正在上传文件到服务器...</span>
+                        <span>${t('admin.uploading', 'Uploading files to server...')}</span>
                     </div>
                 </div>
             `;
@@ -552,21 +583,21 @@ window.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const username = document.getElementById('uploadUsername').value;
             const fileInput = document.getElementById('taskZipFile'); const file = fileInput.files[0];
-            if (!file) { showAlert('请选择要上传的文件', 'danger'); return; }
+            if (!file) { showAlert(t('admin.selectFile', 'Please select a file to upload'), 'danger'); return; }
             closeUploadModal();
             const toast = createUploadToast(file.name, file.size);
             try {
                 const formData = new FormData();
                 formData.append('file', file);
                 const response = await fetch(`/api/users/${username}/upload-task`, { method: 'POST', body: formData });
-                if (response.ok) { updateUploadToast(toast, 'success', '上传成功！文件已保存到服务器'); }
+                if (response.ok) { updateUploadToast(toast, 'success', t('admin.uploadSuccess', 'Upload successful! Files saved to server')); }
                 else {
                     const error = await response.json();
-                    updateUploadToast(toast, 'error', error.detail || '上传失败，请重试');
+                    updateUploadToast(toast, 'error', error.detail || t('admin.uploadFailed', 'Upload failed, please retry'));
                 }
             } catch (error) {
-                console.error('上传失败:', error);
-                updateUploadToast(toast, 'error', '网络错误，上传失败');
+                console.error(t('admin.uploadFailed', 'Upload failed:'), error);
+                updateUploadToast(toast, 'error', t('admin.networkError', 'Network error, upload failed'));
             }
         }
 
@@ -583,8 +614,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 currentCsvFiles = result.data;
                 renderCsvTable(result.data);
             } catch (error) {
-                console.error('加载结果文件列表失败:', error);
-                showAlert('加载文件列表失败', 'danger');
+                console.error(t('admin.loadFileListFailed', 'Failed to load result file list:'), error);
+                showAlert(t('admin.loadFileListFailed', 'Failed to load file list'), 'danger');
                 closeDownloadModal();
             }
         }
@@ -595,7 +626,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const tbody = document.getElementById('csvTableBody');
             loadingState.style.display = 'none'; listContainer.style.display = 'block';
             if (!csvFiles || csvFiles.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px;"><div class="empty-state"><div class="empty-icon">📄</div><p>暂无诊断结果文件</p></div></td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px;"><div class="empty-state"><div class="empty-icon">📄</div><p data-i18n="admin.noResults">No diagnosis result files</p></div></td></tr>`;
                 return;
             }
             tbody.innerHTML = csvFiles.map((file, index) => `
@@ -606,7 +637,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     <td>📋 <strong>${file.filename}</strong></td>
                     <td>${file.taskFolder}</td>
                     <td>${file.modifiedTime}</td>
-                    <td><a href="${file.downloadUrl}" download class="btn btn-primary btn-sm">下载</a></td>
+                    <td><a href="${file.downloadUrl}" download class="btn btn-primary btn-sm" data-i18n="admin.download">Download</a></td>
                 </tr>
             `).join('');
         }
@@ -626,7 +657,7 @@ window.addEventListener('DOMContentLoaded', () => {
         function updateSelectedCount() { document.getElementById('selectedCount').textContent = selectedFiles.size; document.getElementById('batchDownloadBtn').disabled = selectedFiles.size === 0; }
 
         async function batchDownload() {
-            if (selectedFiles.size === 0) { showAlert('请至少选择一个文件', 'danger'); return; }
+            if (selectedFiles.size === 0) { showAlert(t('admin.selectAtLeastOne', 'Please select at least one file'), 'danger'); return; }
             try {
                 const selectedFileObjects = Array.from(selectedFiles).map(index => currentCsvFiles[index]);
                 if (selectedFileObjects.length === 1) { window.location.href = selectedFileObjects[0].downloadUrl; return; }
@@ -635,14 +666,14 @@ window.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username: currentUsername, files: selectedFileObjects.map(f => ({ filename: f.filename, taskFolder: f.taskFolder })) })
                 });
-                if (!response.ok) throw new Error('批量下载失败');
+                if (!response.ok) throw new Error(t('admin.batchDownloadFailed', 'Batch download failed'));
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a'); a.href = url; a.download = `${currentUsername}_diagnosis_results.zip`; document.body.appendChild(a); a.click(); document.body.removeChild(a); window.URL.revokeObjectURL(url);
-                showAlert('批量下载成功！', 'success');
+                showAlert(t('admin.batchDownloadSuccess', 'Batch download successful!'), 'success');
             } catch (error) {
-                console.error('批量下载失败:', error);
-                showAlert('批量下载失败，请重试', 'danger');
+                console.error(t('admin.batchDownloadFailed', 'Batch download failed:'), error);
+                showAlert(t('admin.batchDownloadFailed', 'Batch download failed, please retry'), 'danger');
             }
         }
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>欢迎 - 儿童先心病诊断平台</title>
+  <title data-i18n="flowTitle">Welcome - CHD-AIDE</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -63,7 +63,6 @@
       .buttons { flex-direction:column; }
       .actions { justify-content:center; }
     }
-    /* 背景层 - 伪元素，最底层 */
     body::before {
       content: '';
       position: fixed;
@@ -80,7 +79,6 @@
     body.has-bg::before {
       background-image: var(--bg-image, none);
     }
-    /* 标题层 - 在背景上，内容下方 */
     .title-overlay {
       position: fixed;
       top: 20px;
@@ -102,7 +100,6 @@
   </style>
 </head>
 <body>
-  <!-- 标题层 -->
   <div class="title-overlay" id="titleOverlay">
     <h1 id="bg-title"></h1>
     <p id="bg-subtitle"></p>
@@ -111,28 +108,26 @@
     <div class="header">
       <div id="avatar" class="avatar">U</div>
       <div class="userinfo">
-        <div id="welcomeText" class="welcome">欢迎回来，加载中...</div>
-        <div id="orgText" class="meta">机构：加载中...</div>
+        <div id="welcomeText" class="welcome" data-i18n="welcomeBack">Welcome back</div>
+        <div id="orgText" class="meta" data-i18n="organization">Organization: Loading...</div>
       </div>
       <div style="flex:1"></div>
       <div>
-        <button id="logoutBtn" class="btn ghost">退出登录</button>
+        <button id="logoutBtn" class="btn ghost" data-i18n="logout">Logout</button>
       </div>
     </div>
 
-    <div class="hint" style="font-size:18px;margin-bottom:12px;">请选择以下模式开始：</div>
+    <div class="hint" style="font-size:18px;margin-bottom:12px;" data-i18n="selectMode">Please select a mode to start:</div>
 
     <div class="buttons" role="navigation" aria-label="mode-buttons">
       <div style="display:flex;gap:24px;flex-wrap:wrap;">
-        <button id="diagnoseBtn" class="btn" data-desc-key="diagnoseBtn">诊断模式</button>
-        <button id="eduBtn" class="btn secondary" data-desc-key="eduBtn">教育模式</button>
-        <button id="tasksBtn" class="btn ghost" style="display: none;" data-desc-key="tasksBtn">任务管理</button>
-        <button id="usersBtn" class="btn ghost" style="display: none;" data-desc-key="usersBtn">用户管理</button>
+        <button id="diagnoseBtn" class="btn" data-desc-key="diagnoseBtn" data-i18n="diagnoseMode">Diagnosis Mode</button>
+        <button id="usersBtn" class="btn ghost" style="display: none;" data-desc-key="usersBtn" data-i18n="userManagement">User Management</button>
       </div>
-      <div style="color:#6b7280;font-size:13px;white-space:nowrap;">如需切换账号，请先退出再重新登录。</div>
+      <div style="color:#6b7280;font-size:13px;white-space:nowrap;" data-i18n="switchAccountHint">To switch accounts, please logout and login again.</div>
     </div>
 
-    <div id="buttonDesc" style="color:#6b7280;font-size:16px;min-height:24px;margin-top:12px;">请选择需要的功能</div>
+    <div id="buttonDesc" style="color:#6b7280;font-size:16px;min-height:24px;margin-top:12px;" data-i18n="selectFunction">Please select a function</div>
   </div>
 
   <script>
@@ -142,19 +137,33 @@
       const avatar = document.getElementById('avatar');
 
       const diagnoseBtn = document.getElementById('diagnoseBtn');
-      const eduBtn = document.getElementById('eduBtn');
-      const tasksBtn = document.getElementById('tasksBtn');
       const usersBtn = document.getElementById('usersBtn');
       const logoutBtn = document.getElementById('logoutBtn');
       const buttonDesc = document.getElementById('buttonDesc');
-      const allButtons = [diagnoseBtn, eduBtn, tasksBtn, usersBtn, logoutBtn];
+      const allButtons = [diagnoseBtn, usersBtn, logoutBtn];
       let buttonDescriptions = {
-        diagnoseBtn: '进入诊断模式，进行正式病例诊断',
-        eduBtn: '进入教育模式，进行练习和学习',
-        tasksBtn: '管理教学任务批次',
-        usersBtn: '管理系统用户账号',
-        logoutBtn: '退出当前登录账号'
+        diagnoseBtn: 'Enter diagnosis mode for formal case diagnosis',
+        usersBtn: 'Manage system users',
+        logoutBtn: 'Logout from current account'
       };
+
+      async function loadI18n() {
+        try {
+          const configRes = await fetch('/UI/i18n/lang_config.json');
+          const config = await configRes.json();
+          const i18nRes = await fetch('/UI/i18n/' + config.current + '.json');
+          const i18n = await i18nRes.json();
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (i18n[key]) el.textContent = i18n[key];
+          });
+          if (i18n.buttonDescriptions) {
+            buttonDescriptions = { ...buttonDescriptions, ...i18n.buttonDescriptions };
+          }
+        } catch (e) {
+          console.warn('i18n load failed, using defaults');
+        }
+      }
 
       function getCookieValue(name) {
         const cookies = document.cookie ? document.cookie.split('; ') : [];
@@ -165,18 +174,6 @@
         return null;
       }
 
-      async function loadButtonDescriptions() {
-        try {
-          const r = await fetch('/res/flow/descriptions.json');
-          if (r.ok) {
-            const data = await r.json();
-            buttonDescriptions = { ...buttonDescriptions, ...data };
-          }
-        } catch (e) {
-          console.warn('按钮描述加载失败，使用默认描述');
-        }
-      }
-
       let avatarConfig = { avatars: {} };
       async function loadAvatarConfig() {
         try {
@@ -185,11 +182,11 @@
             avatarConfig = await r.json();
           }
         } catch (e) {
-          console.warn('头像配置加载失败，使用默认头像');
+          console.warn('Avatar config load failed');
         }
       }
 
-async function setUserAvatar(avatarElem, username) {
+      async function setUserAvatar(avatarElem, username) {
         const avatarPath = avatarConfig.avatars[username];
         if (avatarPath) {
             avatarElem.innerHTML = `<img src="/UI/${avatarPath}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.parentElement.textContent='${username ? username[0].toUpperCase() : 'U'}'">`;
@@ -208,21 +205,21 @@ async function setUserAvatar(avatarElem, username) {
             }
           });
           btn.addEventListener('mouseleave', () => {
-            buttonDesc.textContent = '请选择需要的功能';
+            const key = 'selectFunction';
+            buttonDesc.textContent = buttonDescriptions[key] || 'Please select a function';
           });
         });
       }
 
       async function loadUser() {
         await loadAvatarConfig();
-        await loadButtonDescriptions();
+        await loadI18n();
         setupButtonHoverEvents();
-        
-        let isAdmin = false; // [新增] 默认无管理员权限
+
+        let isAdmin = false;
         let uname = getCookieValue('username') || getCookieValue('user') || 'unknown';
         let org = '';
 
-        // 优先通过后端的 /api/users/current 获取
         let doctor = '';
         try {
           const resp = await fetch('/api/users/current');
@@ -233,72 +230,56 @@ async function setUserAvatar(avatarElem, username) {
               uname = u.username || u.user || u.login || u.name || uname;
               org = u.organization || u.org || u.organizationName || u.department || '';
               doctor = u.doctor || u.name || '';
-              // [新增] 提取管理员标识，严格判断是否为 true
-              isAdmin = u.is_admin === true; 
+              isAdmin = u.is_admin === true;
             }
           }
         } catch (e) {
-          // 忽略，尝试 cookie 回退
         }
 
         applyUser(uname, org, isAdmin, doctor);
       }
 
-      // [改动] 增加 isAdmin 和 doctor 参数
       function applyUser(username, org, isAdmin, doctor) {
         const uname = username || 'unknown';
         const displayName = doctor || uname;
-        welcomeText.textContent = `欢迎回来，${displayName}`;
-        orgText.textContent = org ? `机构：${org}` : '机构：未知机构';
+        welcomeText.textContent = buttonDescriptions.welcomeBack.replace('{name}', displayName) || `Welcome back, ${displayName}`;
+        orgText.textContent = org ? `${buttonDescriptions.organization || 'Organization'}: ${org}` : (buttonDescriptions.unknownOrg || 'Organization: Unknown');
         setUserAvatar(avatar, uname);
 
-        // [新增] 根据权限动态显示管理按钮
         if (isAdmin) {
-          tasksBtn.style.display = 'inline-block';
           usersBtn.style.display = 'inline-block';
         } else {
-          tasksBtn.style.display = 'none';
           usersBtn.style.display = 'none';
         }
       }
 
-      // 按钮导航
       diagnoseBtn.addEventListener('click', () => { window.location.href = '/dashboard'; });
-      eduBtn.addEventListener('click', () => { window.location.href = '/edu_status'; });
-      tasksBtn.addEventListener('click', () => { window.location.href = '/edu_admin'; });
       usersBtn.addEventListener('click', () => { window.location.href = '/admin'; });
 
-      // 退出登录
       logoutBtn.addEventListener('click', async () => {
-        if (!confirm('确认退出登录？')) return;
+        if (!confirm(buttonDescriptions.confirmLogout || 'Confirm logout?')) return;
         try {
-          // 清理localStorage常见键
           ['username','user','currentUser','current_user','auth','token','access_token'].forEach(k=>{ try{ localStorage.removeItem(k);}catch(e){} });
         } catch (e) {}
         try {
           await fetch('/api/logout', { method: 'POST' }).catch(()=>null);
         } catch(e){}
-        // 重定向到登录
         window.location.href = '/login';
       });
 
-      // 初始化加载
       loadUser();
 
-      // 初始化背景配置
       (async function initBackground() {
         try {
           const r = await fetch('/res/share/background_config.json');
           const config = await r.json();
           if (config.enabled) {
-            // 背景图控制
             if (config.showBackground && config.image) {
               document.body.style.setProperty('--bg-image', `url('/res/share/${config.image}')`);
               document.body.classList.add('has-bg');
             } else {
               document.body.classList.remove('has-bg');
             }
-            // 标题控制
             if (config.showTitle) {
               document.getElementById('bg-title').textContent = config.title || '';
               document.getElementById('bg-subtitle').textContent = config.subtitle || '';
@@ -311,7 +292,7 @@ async function setUserAvatar(avatarElem, username) {
             document.body.classList.remove('has-bg');
           }
         } catch (e) {
-          console.warn('背景配置加载失败:', e);
+          console.warn('Background config load failed:', e);
         }
       })();
     })();

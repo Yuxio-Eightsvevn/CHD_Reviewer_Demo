@@ -388,7 +388,7 @@
         </div>
 
         <!-- 核心功能 -->
-        <h2 class="features-title" id="featuresTitle">核心功能</h2>
+        <h2 class="features-title" id="featuresTitle" data-i18n="login.featuresTitle">Core Features</h2>
         <div class="features-row" id="featuresRow"></div>
     </main>
 
@@ -396,17 +396,17 @@
     <div class="login-modal" id="loginModal">
         <div class="login-modal-card">
             <span class="close-btn" onclick="closeLoginModal()">&times;</span>
-            <h2>登录</h2>
+            <h2 data-i18n="login.loginBtn">Login</h2>
             <div class="error-msg" id="loginError"></div>
             <div class="form-group">
-                <label>用户名</label>
-                <input type="text" id="loginUsername" placeholder="请输入用户名" required>
+                <label data-i18n="login.usernameLabel">Username</label>
+                <input type="text" id="loginUsername" data-i18n-placeholder="login.usernamePlaceholder" placeholder="Please enter username" required>
             </div>
             <div class="form-group">
-                <label>密码</label>
-                <input type="password" id="loginPassword" placeholder="请输入密码" required>
+                <label data-i18n="login.passwordLabel">Password</label>
+                <input type="password" id="loginPassword" data-i18n-placeholder="login.passwordPlaceholder" placeholder="Please enter password" required>
             </div>
-            <button class="login-btn" id="loginBtn" onclick="doLogin()">登录</button>
+            <button class="login-btn" id="loginBtn" onclick="doLogin()" data-i18n="login.loginBtn">Login</button>
         </div>
     </div>
 
@@ -420,15 +420,50 @@
         var carouselImages = [];
         var currentSlide = 0;
         var carouselInterval = null;
+        var i18n = {};
+        var langConfig = {};
+
+        async function loadI18n() {
+            try {
+                const resp = await fetch('UI/i18n/lang_config.json');
+                langConfig = await resp.json();
+                const resp2 = await fetch('UI/i18n/' + langConfig.current + '.json');
+                i18n = await resp2.json();
+                applyI18n();
+            } catch (e) {
+                console.error('Failed to load i18n:', e);
+            }
+        }
+
+        function t(key, fallback) {
+            const keys = key.split('.');
+            let val = i18n;
+            for (const k of keys) {
+                val = val?.[k];
+            }
+            return val ?? fallback ?? key;
+        }
+
+        function applyI18n() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key, el.textContent);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key, el.placeholder);
+            });
+        }
 
         async function loadConfig() {
             try {
-                var resp = await fetch('UI/login_config.json');
+                const configName = langConfig.current === 'en' ? 'UI/login_config_en.json' : 'UI/login_config.json';
+                var resp = await fetch(configName);
                 config = await resp.json();
                 renderContent();
                 applyBackground();
             } catch (e) {
-                console.error('加载配置失败:', e);
+                console.error(t('login.configLoadFailed', 'Failed to load config:'), e);
             }
         }
 
@@ -439,7 +474,7 @@
                 renderCarousel();
                 startAutoPlay();
             } catch (e) {
-                console.error('加载轮播图片失败:', e);
+                console.error(t('login.carouselLoadFailed', 'Failed to load carousel images:'), e);
             }
         }
 
@@ -597,12 +632,12 @@
             var btn = document.getElementById('loginBtn');
 
             if (!username || !password) {
-                showLoginError('请填写用户名和密码');
+                showLoginError(t('login.fillBothFields', 'Please fill in username and password'));
                 return;
             }
 
             btn.disabled = true;
-            btn.textContent = '登录中...';
+            btn.textContent = t('login.loginBtnLoading', 'Logging in...');
 
             try {
                 var res = await fetch('/api/login', {
@@ -611,13 +646,13 @@
                     body: JSON.stringify({ username, password })
                 });
                 var data = await res.json();
-                if (!res.ok) throw new Error(data.detail || '登录失败');
+                if (!res.ok) throw new Error(data.detail || t('login.loginFailed', 'Login failed'));
                 localStorage.setItem('userData', JSON.stringify(data.data));
                 window.location.href = '/flow';
             } catch (e) {
                 showLoginError(e.message);
                 btn.disabled = false;
-                btn.textContent = '登录';
+                btn.textContent = t('login.loginBtn', 'Login');
             }
         }
 
@@ -625,8 +660,10 @@
             if (e.key === 'Enter') doLogin();
         });
 
-        loadConfig();
-        loadCarouselImages();
+        loadI18n().then(() => {
+            loadConfig();
+            loadCarouselImages();
+        });
     </script>
 </body>
 </html>

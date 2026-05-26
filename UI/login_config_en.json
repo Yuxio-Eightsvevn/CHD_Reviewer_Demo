@@ -1,0 +1,42 @@
+{
+  "header": {
+    "title": "CHD-AIDE"
+  },
+  "titleField": {
+    "image": "res/login/images/title.jpg",
+    "welcomeText": "Welcome to CHD-AIDE Platform",
+    "mainTitle": "CHD-AIDE",
+    "subtitle": "AI-Assisted Diagnosis and Education System",
+    "description": "CHD-AIDE is an AI-assisted platform specializing in congenital heart disease diagnosis. Through deep learning models, we provide physicians with accurate diagnostic recommendations, heatmap visualization, and bounding box localization to help you efficiently perform CHD screening and diagnosis. The platform also offers teaching training modes to support physicians in improving diagnostic skills in a simulated environment.",
+    "loginButtonText": "Click to Login"
+  },
+  "keywords": [
+    { "text": "Accurate Diagnosis" },
+    { "text": "Intelligent Assistance" },
+    { "text": "Heatmap Visualization" },
+    { "text": "Teaching Training" },
+    { "text": "Multi-dimensional Review" }
+  ],
+  "background": "",
+  "carousel": {
+    "enabled": true
+  },
+  "features": [
+    {
+      "title": "AI Intelligent Analysis",
+      "description": "Based on the built-in CHD-Model deep learning model, the platform automatically identifies key structures and lesion features in cardiac ultrasound videos, outputs classification confidence and lesion localization results, generates heatmaps and diagnostic recommendations combined with temporal key frames, helping physicians quickly locate lesion areas and achieve efficient and accurate intelligent assisted diagnosis."
+    },
+    {
+      "title": "Explainable Diagnosis",
+      "description": "Supports multi-modal visualization including original videos, classification confidence, heatmaps, and lesion bounding boxes, clearly presenting AI diagnostic basis and temporal key frame information, making diagnostic decisions traceable and explainable, and comprehensively improving the transparency and credibility of the review process."
+    },
+    {
+      "title": "Multi-dimensional Review",
+      "description": "Building a standardized three-stage review training system covering the entire process from 'independent review to AI-assisted review to independent re-examination', providing standardized case resources and unified review specifications, creating a closed-loop learning scenario for junior physicians from basic training to skill improvement."
+    },
+    {
+      "title": "Capability Assessment",
+      "description": "Automatically collecting multi-stage review data, calculating core indicators such as accuracy, sensitivity, and specificity, combined with AI dependency analysis and AI expert evaluation, generating quantitative assessment reports to intuitively present diagnostic capability changes and improvement directions, achieving scientific quantitative evaluation of physician competency."
+    }
+  ]
+}

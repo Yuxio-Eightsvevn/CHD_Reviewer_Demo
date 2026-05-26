@@ -1611,18 +1611,18 @@ async def serve_task_status():
     """返回任务状态进度页面"""
     return FileResponse("UI/task_status.html")
 
-@app.get("/edu_status")
-async def serve_edu_status(): return FileResponse("UI/edu_status.html")
+# [HIDDEN FOR REVIEW] @app.get("/edu_status")
+# async def serve_edu_status(): return FileResponse("UI/edu_status.html")
 
-@app.get("/edu_admin")
-async def serve_edu_admin():
-    """返回教育模式管理页面"""
-    return FileResponse("UI/edu_admin.html")
+# [HIDDEN FOR REVIEW] @app.get("/edu_admin")
+# async def serve_edu_admin():
+#     """返回教育模式管理页面"""
+#     return FileResponse("UI/edu_admin.html")
 
-@app.get("/edu_admin")
-async def serve_edu_admin():
-    """返回教育模式管理端页面"""
-    return FileResponse("UI/edu_admin.html")
+# [HIDDEN FOR REVIEW] @app.get("/edu_admin")
+# async def serve_edu_admin():
+#     """返回教育模式管理端页面"""
+#     return FileResponse("UI/edu_admin.html")
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>诊断界面 - 儿童先心病诊断平台</title>
+    <title data-i18n="diagnosis.title">Diagnosis Interface - CHD-AIDE</title>
     <style>
         * {
             margin: 0;
@@ -1036,10 +1036,10 @@
     </div>
     <!-- 顶部导航栏 -->
     <div class="navbar">
-        <div class="navbar-title" id="navTitle">🩺 儿童先心病诊断平台 - 诊断模式</div>
+        <div class="navbar-title" id="navTitle" data-i18n="diagnosis.navTitleDiag">🩺 CHD-AIDE - Diagnosis Mode</div>
         <div class="navbar-user">
-            <span class="user-name" id="navUsername">Loading...</span>
-            <a href="javascript:void(0)" class="navbar-btn" id="navBackBtn" onclick="returnToDashboard()">返回主页</a>
+            <span class="user-name" id="navUsername" data-i18n="loading">Loading...</span>
+            <a href="javascript:void(0)" class="navbar-btn" id="navBackBtn" onclick="returnToDashboard()" data-i18n="diagnosis.backToDashboard">Back to Dashboard</a>
         </div>
     </div>
 
@@ -1052,7 +1052,7 @@
                 <div class="video-controls">
                     <div class="progress-bar">
                         <div class="progress-info">
-                            <span id="progressText">病人 0 / 0</span>
+                            <span id="progressText" data-i18n="diagnosis.patientProgress">Patient 0 / 0</span>
                             <span class="progress-percentage" id="progressPercentage">0%</span>
                         </div>
                         <div class="progress-track">
@@ -1065,48 +1065,48 @@
                 <div class="video-container">
                     <!-- 视频1 -->
                     <div class="video-item" onclick="openVideoModal(1)">
-                        <div class="video-label">视频 1</div>
+                        <div class="video-label" data-i18n="diagnosis.videoLabel">Video 1</div>
                         <div class="video-placeholder">
                             <div class="video-placeholder-icon">🎥</div>
-                            <p>超声视图 1</p>
+                            <p data-i18n="diagnosis.ultrasoundView">Ultrasound View 1</p>
                         </div>
-                        <div class="video-expand-hint">🔍 点击放大</div>
+                        <div class="video-expand-hint" data-i18n="diagnosis.clickToExpand">🔍 Click to expand</div>
                     </div>
                     <!-- 视频2 -->
                     <div class="video-item" onclick="openVideoModal(2)">
-                        <div class="video-label">视频 2</div>
+                        <div class="video-label" data-i18n="diagnosis.videoLabel">Video 2</div>
                         <div class="video-placeholder">
                             <div class="video-placeholder-icon">🎥</div>
-                            <p>超声视图 2</p>
+                            <p data-i18n="diagnosis.ultrasoundView">Ultrasound View 2</p>
                         </div>
-                        <div class="video-expand-hint">🔍 点击放大</div>
+                        <div class="video-expand-hint" data-i18n="diagnosis.clickToExpand">🔍 Click to expand</div>
                     </div>
                     <!-- 视频3 -->
                     <div class="video-item" onclick="openVideoModal(3)">
-                        <div class="video-label">视频 3</div>
+                        <div class="video-label" data-i18n="diagnosis.videoLabel">Video 3</div>
                         <div class="video-placeholder">
                             <div class="video-placeholder-icon">🎥</div>
-                            <p>超声视图 3</p>
+                            <p data-i18n="diagnosis.ultrasoundView">Ultrasound View 3</p>
                         </div>
-                        <div class="video-expand-hint">🔍 点击放大</div>
+                        <div class="video-expand-hint" data-i18n="diagnosis.clickToExpand">🔍 Click to expand</div>
                     </div>
                     <!-- 视频4 -->
                     <div class="video-item" onclick="openVideoModal(4)">
-                        <div class="video-label">视频 4</div>
+                        <div class="video-label" data-i18n="diagnosis.videoLabel">Video 4</div>
                         <div class="video-placeholder">
                             <div class="video-placeholder-icon">🎥</div>
-                            <p>超声视图 4</p>
+                            <p data-i18n="diagnosis.ultrasoundView">Ultrasound View 4</p>
                         </div>
-                        <div class="video-expand-hint">🔍 点击放大</div>
+                        <div class="video-expand-hint" data-i18n="diagnosis.clickToExpand">🔍 Click to expand</div>
                     </div>
                     <!-- 视频5 -->
                     <div class="video-item" onclick="openVideoModal(5)">
-                        <div class="video-label">视频 5</div>
+                        <div class="video-label" data-i18n="diagnosis.videoLabel">Video 5</div>
                         <div class="video-placeholder">
                             <div class="video-placeholder-icon">🎥</div>
-                            <p>超声视图 5</p>
+                            <p data-i18n="diagnosis.ultrasoundView">Ultrasound View 5</p>
                         </div>
-                        <div class="video-expand-hint">🔍 点击放大</div>
+                        <div class="video-expand-hint" data-i18n="diagnosis.clickToExpand">🔍 Click to expand</div>
                     </div>
                 </div>
             </div>
@@ -1118,46 +1118,46 @@
             <div class="diagnosis-panel">
                 <!-- 暂停计时 -->
                 <div class="timer-button-container">
-                    <button class="timer-btn" onclick="toggleTimer()">暂停计时</button>
+                    <button class="timer-btn" onclick="toggleTimer()" data-i18n="diagnosis.pauseTimer">Pause Timer</button>
                     <span class="timer-text" id="timerText">00:00</span>
                 </div>
 
                     <!-- 模态切换 -->
                     <div class="diagnosis-group">
-                        <div class="group-label">诊断模态:</div>
+                        <div class="group-label" data-i18n="diagnosis.modality">Modality:</div>
                         <div class="diagnosis-options" style="grid-template-columns: repeat(3, minmax(80px, 1fr));">
-                            <button class="option-btn active" onclick="selectOption(this, 'modality')">原视频</button>
-                            <button class="option-btn" onclick="selectOption(this, 'modality')">热力图</button>
-                            <button class="option-btn" onclick="selectOption(this, 'modality')">病灶定位框</button>
+                            <button class="option-btn active" onclick="selectOption(this, 'modality')" data-i18n="diagnosis.original">Original</button>
+                            <button class="option-btn" onclick="selectOption(this, 'modality')" data-i18n="diagnosis.heatmap">Heatmap</button>
+                            <button class="option-btn" onclick="selectOption(this, 'modality')" data-i18n="diagnosis.bbox">Bounding Box</button>
                         </div>
                     </div>
 
                 <!-- 模型预测置信度 -->
                 <div class="model-confidence-bars" id="modelConfidence">
-                    <div class="group-label" style="font-size: 13px; margin-bottom: 2px;">模型预测置信度</div>
+                    <div class="group-label" style="font-size: 13px; margin-bottom: 2px;" data-i18n="diagnosis.modelConfidence">Model Confidence</div>
                     <div class="confidence-item">
-                        <span class="confidence-label">正常</span>
+                        <span class="confidence-label" data-i18n="diagnosis.normal">Normal</span>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="fill-normal" style="width: 0%; background: #10b981;"></div>
                         </div>
                         <span class="confidence-value" id="conf-normal">0.0%</span>
                     </div>
                     <div class="confidence-item">
-                        <span class="confidence-label">VSD</span>
+                        <span class="confidence-label" data-i18n="diagnosis.vsd">VSD</span>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="fill-vsd" style="width: 0%; background: #f59e0b;"></div>
                         </div>
                         <span class="confidence-value" id="conf-vsd">0.0%</span>
                     </div>
                     <div class="confidence-item">
-                        <span class="confidence-label">ASD</span>
+                        <span class="confidence-label" data-i18n="diagnosis.asd">ASD</span>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="fill-asd" style="width: 0%; background: #ef4444;"></div>
                         </div>
                         <span class="confidence-value" id="conf-asd">0.0%</span>
                     </div>
                     <div class="confidence-item">
-                        <span class="confidence-label">PDA</span>
+                        <span class="confidence-label" data-i18n="diagnosis.pda">PDA</span>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="fill-pda" style="width: 0%; background: #8b5cf6;"></div>
                         </div>
@@ -1167,23 +1167,23 @@
 
                 <!-- 临床判断 -->
                 <div class="diagnosis-group">
-                    <div class="group-label">临床判断:</div>
+                    <div class="group-label" data-i18n="diagnosis.clinicalJudgment">Clinical Judgment:</div>
                     <div class="diagnosis-options four-cols">
-                        <button class="option-btn active" onclick="selectOption(this, 'diagnosis')">正常</button>
-                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')">VSD</button>
-                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')">ASD</button>
-                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')">PDA</button>
+                        <button class="option-btn active" onclick="selectOption(this, 'diagnosis')" data-i18n="diagnosis.normal" data-diagnosis-value="Normal">Normal</button>
+                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')" data-i18n="diagnosis.vsd" data-diagnosis-value="VSD">VSD</button>
+                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')" data-i18n="diagnosis.asd" data-diagnosis-value="ASD">ASD</button>
+                        <button class="option-btn" onclick="selectOption(this, 'diagnosis')" data-i18n="diagnosis.pda" data-diagnosis-value="PDA">PDA</button>
                     </div>
                 </div>
 
                 <!-- 诊断标准触发器 -->
-                <div class="diagnosis-standard-trigger" onclick="toggleDiagnosisStandard()">
-                    📋 选择诊断标准等级
+                <div class="diagnosis-standard-trigger" onclick="toggleDiagnosisStandard()" data-i18n="diagnosis.selectSeverityLevel">
+                    📋 Select Severity Level
                 </div>
 
                 <!-- 当前选择显示 -->
                 <div class="current-selection" id="currentSelection" style="display: none;" onclick="cancelSelectedLevel()">
-                    <span class="selection-label">当前选择：</span>
+                    <span class="selection-label" data-i18n="diagnosis.currentSelection">Current Selection:</span>
                     <span class="selection-value" id="selectionValue"></span>
                 </div>
 
@@ -1192,38 +1192,38 @@
                         <div class="standard-list">
                             <div class="standard-item" onclick="selectStandardLevel(1)">
                                 <div class="standard-number">1.</div>
-                                <div class="standard-text">切面标准，常见病灶区超声回声连续完整，未见过隔血流信号</div>
-                                <div class="standard-level level-absolutely-normal">完全正常</div>
+                                <div class="standard-text" data-i18n="diagnosis.std1Text">Standard criteria: common lesion area ultrasound echo is continuous and intact, no crossing blood flow signal observed</div>
+                                <div class="standard-level level-absolutely-normal" data-i18n="diagnosis.std1Level">Completely Normal</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(2)">
                                 <div class="standard-number">2.</div>
-                                <div class="standard-text">常见病灶区域存在缺损伪影，无法完全排除微小病变，但判断为正常</div>
-                                <div class="standard-level level-basically-normal">倾向正常</div>
+                                <div class="standard-text" data-i18n="diagnosis.std2Text">There is artifact in the common lesion area, cannot completely exclude minor lesions, but judged as normal</div>
+                                <div class="standard-level level-basically-normal" data-i18n="diagnosis.std2Level">Basically Normal</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(3)">
                                 <div class="standard-number">3.</div>
-                                <div class="standard-text">在某个切面上似乎观察到病灶区域存在微小伪彩，不确定是否真的阴性</div>
-                                <div class="standard-level level-tends-normal">可疑阴性</div>
+                                <div class="standard-text" data-i18n="diagnosis.std3Text">A small abnormal color area seems observed in a certain view, uncertain whether truly negative</div>
+                                <div class="standard-level level-tends-normal" data-i18n="diagnosis.std3Level">Suspicious Negative</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(4)">
                                 <div class="standard-number">4.</div>
-                                <div class="standard-text">解剖结构较模糊，无法定位到病灶可能存在的区域，无法做出肯定或者否定的判断</div>
-                                <div class="standard-level level-suspected">无法判断</div>
+                                <div class="standard-text" data-i18n="diagnosis.std4Text">Anatomical structure is relatively blurred, cannot locate the possible lesion area, cannot make positive or negative judgment</div>
+                                <div class="standard-level level-suspected" data-i18n="diagnosis.std4Level">Cannot Judge</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(5)">
                                 <div class="standard-number">5.</div>
-                                <div class="standard-text">在某个切面上似乎观察到病灶区域存在微小回声淡区，且观察到不明确的分流血流信号</div>
-                                <div class="standard-level level-cannot-judge">可疑阳性</div>
+                                <div class="standard-text" data-i18n="diagnosis.std5Text">A small faint echo area seems observed in lesion area, and uncertain blood flow signal is observed</div>
+                                <div class="standard-level level-cannot-judge" data-i18n="diagnosis.std5Level">Suspicious Positive</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(6)">
                                 <div class="standard-number">6.</div>
-                                <div class="standard-text">彩色多普勒观察到可疑的分流血流束，但二维超声未观察到明确的解剖缺损口，但判断为阳性</div>
-                                <div class="standard-level level-highly-suspected">倾向阳性</div>
+                                <div class="standard-text" data-i18n="diagnosis.std6Text">Suspicious shunt blood flow bundle observed by color Doppler, but no definite anatomical defect opening observed by 2D ultrasound, judged as positive</div>
+                                <div class="standard-level level-highly-suspected" data-i18n="diagnosis.std6Level">Likely Positive</div>
                             </div>
                             <div class="standard-item" onclick="selectStandardLevel(7)">
                                 <div class="standard-number">7.</div>
-                                <div class="standard-text">在至少一个切面上观察到解剖结构缺损，以及明确的分流血流信号</div>
-                                <div class="standard-level level-basically-confirmed">完全确诊</div>
+                                <div class="standard-text" data-i18n="diagnosis.std7Text">Anatomical structural defect and definite shunt blood flow signal observed in at least one view</div>
+                                <div class="standard-level level-basically-confirmed" data-i18n="diagnosis.std7Level">Confirmed</div>
                             </div>
                         </div>
                     </div>
@@ -1232,14 +1232,14 @@
                 <div class="content-spacer"></div>
 
                 <!-- 提交按钮（完成全部诊断后显示） -->
-                <button class="action-btn btn-submit-green" id="submitBtn" onclick="submitDiagnosis()" style="display: none;">
-                    ✅ 提交全部诊断结果
+                <button class="action-btn btn-submit-green" id="submitBtn" onclick="submitDiagnosis()" style="display: none;" data-i18n="diagnosis.submitAllResults">
+                    ✅ Submit All Results
                 </button>
 
                 <!-- 导航按钮 -->
                 <div class="navigation-buttons">
-                    <button class="action-btn btn-submit" onclick="previousVideo()" style="background: #e9ecef; color: #495057;">上一个</button>
-                    <button class="action-btn btn-submit" onclick="nextVideo()">下一个</button>
+                    <button class="action-btn btn-submit" onclick="previousVideo()" style="background: #e9ecef; color: #495057;" data-i18n="diagnosis.previous">Previous</button>
+                    <button class="action-btn btn-submit" onclick="nextVideo()" data-i18n="diagnosis.next">Next</button>
                 </div>
             </div>
         </div>
@@ -1249,15 +1249,15 @@
     <div class="modal-overlay" id="eduCompleteModal" style="display: none;">
         <div class="modal-card" style="max-width: 500px; text-align: center; animation: slideUp 0.3s ease;">
             <div style="font-size: 48px; margin-bottom: 20px;">🎉</div>
-            <h2 style="color: #1e293b; margin-bottom: 15px;">诊断已完成！</h2>
-            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-                您的诊断结果已提交成功。<br><br>
-                系统正在生成AI分析报告，请稍后在<br>
-                <strong style="color: #667eea;">教育练习中心 → 点击"查看报告"</strong><br>
-                查看详细评估结果。
+            <h2 style="color: #1e293b; margin-bottom: 15px;" data-i18n="diagnosis.diagnosisCompleteTitle">Diagnosis Complete!</h2>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 20px;" data-i18n="diagnosis.diagnosisCompleteMsg">
+                Your diagnosis has been submitted successfully.<br><br>
+                The system is generating AI analysis report. Please check<br>
+                <strong style="color: #667eea;">Education Center → Click "View Report"</strong><br>
+                for detailed evaluation results.
             </p>
-            <button class="btn btn-primary" id="completeModalBtn" style="width: 100%; padding: 12px; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                查看报告
+            <button class="btn btn-primary" id="completeModalBtn" style="width: 100%; padding: 12px; font-size: 14px; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;" data-i18n="diagnosis.viewReport">
+                View Report
             </button>
         </div>
     </div>
@@ -1266,15 +1266,15 @@
     <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
         <div class="video-modal-content" onclick="event.stopPropagation()">
             <div class="video-modal-header">
-                <div class="video-modal-title" id="modalTitle">视频 1 - 放大查看</div>
+                <div class="video-modal-title" id="modalTitle" data-i18n="diagnosis.videoModalTitle">Video 1 - Enlarged View</div>
                 <div class="video-modal-keyframe" id="modalKeyFrame"></div>
                 <button class="video-modal-close" onclick="closeVideoModal()"></button>
             </div>
             <div class="video-modal-body" id="modalBody">
                 <div class="video-modal-placeholder">
                     <div class="video-modal-placeholder-icon">🎥</div>
-                    <p>超声视频播放区域</p>
-                    <p style="font-size: 12px; margin-top: 10px; color: #666;">此处将播放放大的视频</p>
+                    <p data-i18n="diagnosis.ultrasoundVideoArea">Ultrasound Video Area</p>
+                    <p style="font-size: 12px; margin-top: 10px; color: #666;" data-i18n="diagnosis.videoWillPlayHere">The enlarged video will play here</p>
                 </div>
             </div>
         </div>
@@ -1292,26 +1292,50 @@
 
     <script>
         let userData = null;
-        let currentMode = 'diag'; // [核心修复] 将变量提升至全局，默认为判读模式
-        let eduSubMode = 'assist'; // 教育子模式：single(禁用热力图) / assist(AI辅助)
-        let shuffleEnabled = false; // [新增] 是否打乱病例显示顺序
-        let video3DViewer = null; // 3D查看器实例
+        let currentMode = 'diag';
+        let eduSubMode = 'assist';
+        let shuffleEnabled = false;
+        let video3DViewer = null;
         let currentSeverity = null;
         let timerInterval = null;
         let timerSeconds = 0;
         let timerPaused = false;
         let currentVideoIndex = 0;
         let currentPatientIndex = 0;
-        let currentModality = 'original'; // 当前选择的模态：original, heatmap, bbox
-        let isNegativeDiagnosis = false; // 标记当前病例是否为阴性（AI判别为Normal）
+        let currentModality = 'original';
+        let isNegativeDiagnosis = false;
         let patients = [];
-        let diagnosisRecords = {}; // 存储所有病人的诊断记录 {patientId: {diagnosis, severity}}
+        let diagnosisRecords = {};
         let taskInfo = {
             username: '',
             taskFolder: '',
             taskName: ''
         };
-        let isReturningToDashboard = false; // 标记是否正在返回主页
+        let isReturningToDashboard = false;
+        let i18n = {};
+
+        async function loadI18n() {
+            try {
+                const configRes = await fetch('/UI/i18n/lang_config.json');
+                const config = await configRes.json();
+                const i18nRes = await fetch('/UI/i18n/' + config.current + '.json');
+                i18n = await i18nRes.json();
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (i18n[key]) el.textContent = i18n[key];
+                });
+            } catch (e) {
+                console.warn('i18n load failed');
+            }
+        }
+
+        function t(key) {
+            return i18n[key] || key;
+        }
+
+        function getI18nText(key, fallback) {
+            return i18n[key] || fallback || key;
+        }
         
         // [新增] Fisher-Yates 洗牌算法
         function shuffleArray(arr) {
@@ -1337,7 +1361,7 @@
             const selectedDiagnosis = diagnosisGroup?.querySelector('.option-btn.active');
             return {
                 patientId: patients?.[currentPatientIndex]?.id ?? null,
-                diagnosis: selectedDiagnosis ? selectedDiagnosis.textContent.trim() : null,
+                diagnosis: selectedDiagnosis ? (selectedDiagnosis.getAttribute('data-diagnosis-value') || selectedDiagnosis.textContent.trim()) : null,
                 severity: currentSeverity ?? null
             };
         }
@@ -1413,7 +1437,8 @@
                     const diagnosisGroup = document.querySelectorAll('.diagnosis-group')[1];
                     const buttons = diagnosisGroup?.querySelectorAll('.option-btn') || [];
                     buttons.forEach(btn => {
-                        btn.classList.toggle('active', btn.textContent.trim() === draft.inProgress.diagnosis);
+                        const btnValue = btn.getAttribute('data-diagnosis-value') || btn.textContent.trim();
+                        btn.classList.toggle('active', btnValue === draft.inProgress.diagnosis);
                     });
                 }
                 if (draft.inProgress.severity) {
@@ -1451,7 +1476,7 @@
 
             // 同步"暂停/继续"按钮文案
             const timerBtn = document.querySelector('.timer-btn');
-            if (timerBtn) timerBtn.textContent = timerPaused ? '继续计时' : '暂停计时';
+            if (timerBtn) timerBtn.textContent = timerPaused ? getI18nText('diagnosis.resumeTimer', 'Resume Timer') : getI18nText('diagnosis.pauseTimer', 'Pause Timer');
             
             console.log('✅ 草稿应用完成');
         }
@@ -1459,6 +1484,9 @@
 
         // 页面加载
         window.addEventListener('DOMContentLoaded', async () => {
+            // 加载国际化文本
+            await loadI18n();
+            
             // 获取URL参数
             const urlParams = new URLSearchParams(window.location.search);
             currentMode = urlParams.get('mode') || 'diag'; // 默认为判读模式
@@ -1525,11 +1553,11 @@
                 // 更新导航栏标题和返回按钮
                 const navTitle = document.getElementById('navTitle');
                 if (navTitle) {
-                    navTitle.textContent = '🎓 儿童先心病诊断平台 - 教育模式';
+                    navTitle.textContent = getI18nText('diagnosis.navTitleEdu', '🎓 CHD-AIDE - Education Mode');
                 }
                 const navBackBtn = document.getElementById('navBackBtn');
                 if (navBackBtn) {
-                    navBackBtn.textContent = '返回';
+                    navBackBtn.textContent = getI18nText('diagnosis.back', 'Back');
                 }
                 
                 console.log("🎨 当前处于：教育模式，已更新 UI");
@@ -1537,7 +1565,7 @@
             
             // 检查必要参数
             if (!taskInfo.username || !taskInfo.taskFolder) {
-                alert('缺少必要参数，即将返回主页');
+                alert(getI18nText('diagnosis.missingParams', 'Missing required parameters, returning to dashboard'));
                 returnToDashboard();
                 return;
             }
@@ -1548,8 +1576,8 @@
                     const statusCheck = await fetch(`/api/edu/check-task-status/${taskInfo.taskFolder}`);
                     const statusData = await statusCheck.json();
                     if (!statusData.valid) {
-                        console.log('⚠️ 任务已失效:', statusData.reason);
-                        alert('该任务已取消发布或不存在，草稿已清空');
+                        console.log(getI18nText('diagnosis.taskInvalid', '⚠️ Task is invalid:'), statusData.reason);
+                        alert(getI18nText('diagnosis.taskCancelled', 'This task has been unpublished or does not exist, draft cleared'));
                         // 清除草稿
                         const keysToRemove = [];
                         for (let i = 0; i < sessionStorage.length; i++) {
@@ -1564,7 +1592,7 @@
                         return;
                     }
                 } catch (e) {
-                    console.warn('检查任务状态失败:', e);
+                    console.warn(getI18nText('diagnosis.checkTaskFailed', 'Check task status failed:'), e);
                 }
             }
             
@@ -1696,7 +1724,7 @@
                 });
                 
                 if (!patients || patients.length === 0) {
-                    alert('该任务下没有病人数据');
+                    alert(getI18nText('diagnosis.noPatientData', 'No patient data in this task'));
                     returnToDashboard();
                     return;
                 }
@@ -1713,15 +1741,15 @@
                         modalityButtons.forEach(btn => {
                             btn.style.opacity = '0.5';
                             btn.style.pointerEvents = 'none';
-                            btn.title = '此模式不可切换模态';
+                            btn.title = getI18nText('diagnosis.cannotSwitchModality', 'Modality switching not available in this mode');
                         });
-                        console.log('已禁用模态切换按钮（独立诊断/独立复诊模式）');
+                        console.log(getI18nText('diagnosis.modalitySwitchDisabled', 'Modality switch disabled (Single/Review mode)'));
                     }
                 }
                 
             } catch (error) {
-                console.error('加载病人列表失败:', error);
-                alert('加载病人数据失败，请返回重试\n错误: ' + error.message);
+                console.error(getI18nText('diagnosis.loadPatientFailed', 'Failed to load patient list:'), error);
+                alert(getI18nText('diagnosis.loadFailedMsg', 'Failed to load patient data, please retry\nError:') + ' ' + error.message);
             }
         }
 
@@ -1780,7 +1808,7 @@
                 
                 const label = document.createElement('div');
                 label.className = 'video-label';
-                label.textContent = `视频 ${i + 1}`;
+                label.textContent = getI18nText('diagnosis.videoLabel', 'Video') + ' ' + (i + 1);
                 videoDiv.appendChild(label);
                 
                 if (i < patient.videos.length) {
@@ -1792,12 +1820,12 @@
                     
                     // 检查 videoGroup 和 modalities 是否存在
                     if (!videoGroup || !videoGroup.modalities) {
-                        console.error(`❌ 视频 ${i + 1} 数据格式错误:`, videoGroup);
+                        console.error(getI18nText('diagnosis.videoDataError', '❌ Video data format error:'), videoGroup);
                         const placeholder = document.createElement('div');
                         placeholder.className = 'video-placeholder';
                         placeholder.innerHTML = `
                             <div class="video-placeholder-icon">❌</div>
-                            <p>视频数据错误</p>
+                            <p>${getI18nText('diagnosis.videoDataError', 'Video data error')}</p>
                         `;
                         videoDiv.appendChild(placeholder);
                     } else {
@@ -1815,21 +1843,21 @@
                             
                             // 添加错误处理
                             video.onerror = function(e) {
-                                console.error('视频加载失败:', videoPath, e);
-                                console.error('错误详情:', video.error);
+                                console.error(getI18nText('diagnosis.videoLoadFailed', 'Video load failed:'), videoPath, e);
+                                console.error(getI18nText('diagnosis.errorDetails', 'Error details:'), video.error);
                                 // 显示错误信息
                                 const errorDiv = document.createElement('div');
                                 errorDiv.className = 'video-placeholder';
                                 errorDiv.innerHTML = `
                                     <div class="video-placeholder-icon">⚠️</div>
-                                    <p style="font-size: 12px;">视频加载失败</p>
-                                    <p style="font-size: 10px; color: #666;">${video.error ? video.error.message : '未知错误'}</p>
+                                    <p style="font-size: 12px;">${getI18nText('diagnosis.videoLoadFailed', 'Video load failed')}</p>
+                                    <p style="font-size: 10px; color: #666;">${video.error ? video.error.message : getI18nText('diagnosis.unknownError', 'Unknown error')}</p>
                                 `;
                                 videoDiv.replaceChild(errorDiv, video);
                             };
                             
                             video.onloadedmetadata = function() {
-                                console.log('✅ 视频元数据加载成功:', videoPath);
+                                console.log(getI18nText('diagnosis.videoMetadataLoaded', '✅ Video metadata loaded:'), videoPath);
                                 // 尝试自动播放
                                 // [教科书级修复] 增加一个微小的延迟或检查 playsinline 状态
                                 // 处理 play() 被中断的 AbortError
@@ -1840,9 +1868,9 @@
                                     }).catch(err => {
                                         // 仅记录非人为中断的错误
                                         if (err.name !== 'AbortError') {
-                                            console.warn('视频播放遇到异常:', err);
+                                            console.warn(getI18nText('diagnosis.videoPlayError', 'Video play exception:'), err);
                                         } else {
-                                            console.log('ℹ️ 视频播放请求被后续动作正常覆盖(AbortError)');
+                                            console.log(getI18nText('diagnosis.videoAbortInfo', 'ℹ️ Video play request aborted by subsequent action'));
                                         }
                                     });
                                 }
@@ -1857,13 +1885,13 @@
                             // 设置视频源（在添加到DOM后）
                             // [修改] 仅在bbox模态下，如果是阴性诊断则隐藏并显示提示
                             if (currentModality === 'bbox' && isNegativeDiagnosis) {
-                                console.log('🔍 该病例为阴性诊断，隐藏bbox视频');
+                                console.log(getI18nText('diagnosis.negativeNoBbox', '🔍 This case is negative diagnosis, hiding bbox video'));
                                 video.style.display = 'none';
                                 const placeholder = document.createElement('div');
                                 placeholder.className = 'video-placeholder';
                                 placeholder.innerHTML = `
                                     <div class="video-placeholder-icon" style="font-size: 36px;">🔍</div>
-                                    <p style="color: #60a5fa; font-weight: 500;">阴性，无识别框</p>
+                                    <p style="color: #60a5fa; font-weight: 500;">${getI18nText('diagnosis.negativeNoBbox', 'Negative, no detection box')}</p>
                                 `;
                                 videoDiv.appendChild(placeholder);
                             } else {
@@ -1871,12 +1899,12 @@
                             }
                         } else {
                             // 该模态不存在，显示占位符
-                            console.warn(`❌ 视频 ${i + 1} 的 ${currentModality} 模态不存在`);
+                            console.warn(getI18nText('diagnosis.modalityNotExist', '❌ Video modality does not exist:') + ` ${currentModality}`);
                             const placeholder = document.createElement('div');
                             placeholder.className = 'video-placeholder';
                             placeholder.innerHTML = `
                                 <div class="video-placeholder-icon">📹</div>
-                                <p>${currentModality === 'original' ? '原始视频' : currentModality === 'heatmap' ? '热力图' : '模型检测阴性'}</p>
+                                <p>${currentModality === 'original' ? getI18nText('diagnosis.originalVideo', 'Original video') : currentModality === 'heatmap' ? getI18nText('diagnosis.heatmap', 'Heatmap') : getI18nText('diagnosis.modelNegative', 'Model negative')}</p>
                             `;
                             videoDiv.appendChild(placeholder);
                         }
@@ -1887,14 +1915,14 @@
                     placeholder.className = 'video-placeholder';
                     placeholder.innerHTML = `
                         <div class="video-placeholder-icon">🎥</div>
-                        <p>无视频</p>
+                        <p>${getI18nText('diagnosis.noVideo', 'No video')}</p>
                     `;
                     videoDiv.appendChild(placeholder);
                 }
                 
                 const hint = document.createElement('div');
                 hint.className = 'video-expand-hint';
-                hint.textContent = '🔍 点击放大';
+                hint.textContent = getI18nText('diagnosis.clickToExpand', '🔍 Click to expand');
                 videoDiv.appendChild(hint);
                 
                 videoContainer.appendChild(videoDiv);
@@ -1911,7 +1939,7 @@
             const completedCount = Object.keys(diagnosisRecords).length;
             const percentage = patients.length > 0 ? Math.round((completedCount / patients.length) * 100) : 0;
             
-            progressText.textContent = `病人 ${currentPatientIndex + 1} / ${patients.length} (已完成: ${completedCount})`;
+            progressText.textContent = `${getI18nText('diagnosis.patient', 'Patient')} ${currentPatientIndex + 1} ${getI18nText('diagnosis.of', 'of')} ${patients.length} (${getI18nText('diagnosis.completed', 'Completed')}: ${completedCount})`;
             progressPercentage.textContent = `${percentage}%`;
             progressFill.style.width = `${percentage}%`;
             
@@ -2039,7 +2067,7 @@
 
             // 检查 videoGroup 和 modalities 是否存在
             if (!videoGroup || !videoGroup.modalities) {
-                alert('视频数据格式错误');
+                alert(getI18nText('diagnosis.videoDataError', 'Video data format error'));
                 return;
             }
 
@@ -2048,23 +2076,23 @@
 
             if (!videoPath) {
                 const modalityNames = {
-                    'original': '原始视频',
-                    'heatmap': '热力图',
-                    'bbox': '识别框'
+                    'original': getI18nText('diagnosis.original', 'Original'),
+                    'heatmap': getI18nText('diagnosis.heatmap', 'Heatmap'),
+                    'bbox': getI18nText('diagnosis.bbox', 'Bounding box')
                 };
-                alert(`${modalityNames[currentModality] || currentModality}模态不可用`);
+                alert(`${getI18nText('diagnosis.modalityUnavailable', 'Modality not available')}: ${modalityNames[currentModality] || currentModality}`);
                 return;
             }
 
             // 获取模态名称
-            const modalityNames = {
-                'original': '原始',
-                'heatmap': '热力图',
-                'bbox': '诊断框'
+            const modalityNamesDisplay = {
+                'original': getI18nText('diagnosis.original', 'Original'),
+                'heatmap': getI18nText('diagnosis.heatmap', 'Heatmap'),
+                'bbox': getI18nText('diagnosis.bbox', 'Bounding box')
             };
-            const modalityName = modalityNames[currentModality] || currentModality;
+            const modalityName = modalityNamesDisplay[currentModality] || currentModality;
 
-            modalTitle.textContent = `病人 ${patient.id} - 视频 ${videoIndex} (${modalityName})`;
+            modalTitle.textContent = `${getI18nText('diagnosis.patient', 'Patient')} ${patient.id} - ${getI18nText('diagnosis.video', 'Video')} ${videoIndex} (${modalityName})`;
 
             // 清理之前的3D查看器
             if (video3DViewer) {
@@ -2183,17 +2211,17 @@
                 if (currentModality !== 'original' && keyFrameIndex3D !== null) {
                     const label3D = document.createElement('span');
                     label3D.className = 'key-frame-label';
-                    label3D.textContent = '关键帧: 第' + keyFrameIndex3D + '帧';
+                    label3D.textContent = getI18nText('diagnosis.keyFrame', 'Key Frame') + ': ' + getI18nText('diagnosis.frame', 'Frame') + keyFrameIndex3D;
                     keyFrameDisplay3D.appendChild(label3D);
 
                     const btn3D = document.createElement('button');
                     btn3D.className = 'key-frame-btn-header';
-                    btn3D.textContent = '🎯 定位';
+                    btn3D.textContent = getI18nText('diagnosis.locate', '🎯 Locate');
                     btn3D.onclick = function() {
                         const time = keyFrameIndex3D / 15.15;
                         videoElement.currentTime = time;
                         videoElement.pause();
-                        showToast('已定位到关键帧: 第' + keyFrameIndex3D + '帧 (' + time.toFixed(2) + '秒)');
+                        showToast(getI18nText('diagnosis.locatedAt', 'Located at key frame: Frame {index} ({time}s)').replace('{index}', keyFrameIndex3D).replace('{time}', time.toFixed(2)));
                     };
                     keyFrameDisplay3D.appendChild(btn3D);
                     
@@ -2202,14 +2230,14 @@
                 } else if (currentModality === 'original') {
                     const label3D = document.createElement('span');
                     label3D.className = 'key-frame-label';
-                    label3D.textContent = '原视频模式';
+                    label3D.textContent = getI18nText('diagnosis.originalVideoMode', 'Original video mode');
                     label3D.style.background = '#e3f2fd';
                     label3D.style.color = '#1565c0';
                     keyFrameDisplay3D.appendChild(label3D);
                 } else {
                     const label3D = document.createElement('span');
                     label3D.className = 'key-frame-label';
-                    label3D.textContent = '关键帧: 未检测到';
+                    label3D.textContent = getI18nText('diagnosis.keyFrameNotDetected', 'Key frame not detected');
                     label3D.style.background = '#ffebee';
                     label3D.style.color = '#c62828';
                     keyFrameDisplay3D.appendChild(label3D);
@@ -2317,20 +2345,20 @@
 
                 // 先绑定事件，再设置src（避免事件丢失）
                 videoElement.onloadedmetadata = function() {
-                    console.log('✅ 视频元数据加载成功，尝试自动播放...');
+                    console.log(getI18nText('diagnosis.videoMetadataLoaded', '✅ Video metadata loaded, attempting autoplay...'));
                     videoElement.play().catch(err => {
-                        console.error('❌ 自动播放失败:', err.name, err.message);
+                        console.error(getI18nText('diagnosis.autoplayFailed', '❌ Autoplay failed:'), err.name, err.message);
                     });
                 };
 
                 videoElement.onerror = function(e) {
-                    console.error('❌ 弹窗视频加载失败:', videoPath, 'error code:', videoElement.error);
+                    console.error(getI18nText('diagnosis.videoLoadFailed2', '❌ Video load failed:'), videoPath, 'error code:', videoElement.error);
                     modalBody.innerHTML = `
                         <div class="video-modal-placeholder">
                             <div class="video-modal-placeholder-icon">⚠️</div>
-                            <p>视频加载失败</p>
-                            <p style="font-size: 12px; margin-top: 10px; color: #666;">该视频格式不被浏览器支持</p>
-                            <p style="font-size: 11px; margin-top: 5px; color: #555;">建议：转换为H.264编码的MP4格式</p>
+                            <p>${getI18nText('diagnosis.videoLoadFailed', 'Video load failed')}</p>
+                            <p style="font-size: 12px; margin-top: 10px; color: #666;">${getI18nText('diagnosis.videoFormatNotSupported', 'This video format is not supported by browser')}</p>
+                            <p style="font-size: 11px; margin-top: 5px; color: #555;">${getI18nText('diagnosis.suggestConvertH264', 'Suggestion: Convert to H.264 encoded MP4 format')}</p>
                         </div>
                     `;
                 };
@@ -2383,17 +2411,17 @@
                 if (currentModality !== 'original' && keyFrameIndex !== null) {
                     const label = document.createElement('span');
                     label.className = 'key-frame-label';
-                    label.textContent = '关键帧: 第' + keyFrameIndex + '帧';
+                    label.textContent = getI18nText('diagnosis.keyFrame', 'Key Frame') + ': ' + getI18nText('diagnosis.frame', 'Frame') + keyFrameIndex;
                     keyFrameDisplay.appendChild(label);
 
                     const btn = document.createElement('button');
                     btn.className = 'key-frame-btn-header';
-                    btn.textContent = '🎯 定位';
+                    btn.textContent = getI18nText('diagnosis.locate', '🎯 Locate');
                     btn.onclick = function() {
                         const time = keyFrameIndex / 15.15;
                         videoElement.currentTime = time;
                         videoElement.pause();
-                        showToast('已定位到关键帧: 第' + keyFrameIndex + '帧 (' + time.toFixed(2) + '秒)');
+                        showToast(getI18nText('diagnosis.locatedAt', 'Located at key frame: Frame {index} ({time}s)').replace('{index}', keyFrameIndex).replace('{time}', time.toFixed(2)));
                     };
                     keyFrameDisplay.appendChild(btn);
                     
@@ -2402,14 +2430,14 @@
                 } else if (currentModality === 'original') {
                     const label = document.createElement('span');
                     label.className = 'key-frame-label';
-                    label.textContent = '原视频模式';
+                    label.textContent = getI18nText('diagnosis.originalVideoMode', 'Original video mode');
                     label.style.background = '#e3f2fd';
                     label.style.color = '#1565c0';
                     keyFrameDisplay.appendChild(label);
                 } else {
                     const label = document.createElement('span');
                     label.className = 'key-frame-label';
-                    label.textContent = '关键帧: 未检测到';
+                    label.textContent = getI18nText('diagnosis.keyFrameNotDetected', 'Key frame not detected');
                     label.style.background = '#ffebee';
                     label.style.color = '#c62828';
                     keyFrameDisplay.appendChild(label);
@@ -2528,7 +2556,7 @@
         function toggleTimer() {
             timerPaused = !timerPaused;
             const btn = event.target;
-            btn.textContent = timerPaused ? '继续计时' : '暂停计时';
+            btn.textContent = timerPaused ? getI18nText('diagnosis.resumeTimer', 'Resume Timer') : getI18nText('diagnosis.pauseTimer', 'Pause Timer');
             saveDraft('toggleTimer');
         }
 
@@ -2547,15 +2575,15 @@ function selectOption(element, group) {
             if (group === 'modality') {
                 // 教育模式-独立诊断/独立复诊禁止切换到热力图/识别框
                 if (eduSubMode === 'single' || eduSubMode === 'review') {
-                    alert('此模式仅显示原视频');
+                    alert(getI18nText('diagnosis.originalOnlyMode', 'This mode only shows original video'));
                     return;
                 }
                 const modalityText = element.textContent.trim();
-                if (modalityText === '原视频') {
+                if (modalityText === getI18nText('diagnosis.original', 'Original') || modalityText === '原视频') {
                     currentModality = 'original';
-                } else if (modalityText === '热力图') {
+                } else if (modalityText === getI18nText('diagnosis.heatmap', 'Heatmap') || modalityText === '热力图') {
                     currentModality = 'heatmap';
-                } else if (modalityText === '病灶定位框') {
+                } else if (modalityText === getI18nText('diagnosis.bbox', 'Bounding Box') || modalityText === '病灶定位框') {
                     currentModality = 'bbox';
                 }
                 // 重新加载当前病人的视频（使用新的模态）
@@ -2573,7 +2601,7 @@ function selectOption(element, group) {
             const selectedDiagnosis = diagnosisGroup.querySelector('.option-btn.active');
             
             if (!selectedDiagnosis) {
-                alert('请先选择临床判断！');
+                alert(getI18nText('diagnosis.selectDiagnosisFirst', 'Please select clinical judgment first!'));
                 // 关闭诊断标准面板
                 const trigger = document.querySelector('.diagnosis-standard-trigger');
                 const standardContent = document.getElementById('diagnosisStandardContent');
@@ -2671,7 +2699,7 @@ function selectOption(element, group) {
                 updateProgressText();
                 saveDraft('previousVideo');
             } else {
-                alert('已经是第一个病人了');
+                alert(getI18nText('diagnosis.firstPatient', 'Already at the first patient'));
             }
         }
 
@@ -2684,14 +2712,14 @@ function selectOption(element, group) {
                 const selectedDiagnosis = diagnosisGroup.querySelector('.option-btn.active');
                 
                 if (!selectedDiagnosis) {
-                    alert('请选择临床判断后再切换病人！');
+                    alert(getI18nText('diagnosis.selectJudgmentFirst', 'Please select clinical judgment before switching patients!'));
                     return;
                 }
                 
                 // 2. [核心适配] 模式化校验：
                 // 仅在非判读模式（即教育模式）下，才强制要求填写诊断意见等级
                 if (currentMode !== 'diag' && !currentSeverity) {
-                    alert('请选择诊断意见等级后再切换病人！');
+                    alert(getI18nText('diagnosis.selectSeverityFirst', 'Please select diagnosis severity before switching patients!'));
                     return;
                 }
                 
@@ -2714,9 +2742,9 @@ function selectOption(element, group) {
                 // 自动保存草稿至 sessionStorage
                 saveDraft('nextVideo');
                 
-                console.log(`➡️ 已成功切换至病人: ${patients[currentPatientIndex].id}`);
+                console.log(getI18nText('diagnosis.switchedToPatient', '➡️ Switched to patient:') + ` ${patients[currentPatientIndex].id}`);
             } else {
-                alert('已经是最后一个病人了');
+                alert(getI18nText('diagnosis.lastPatient', 'Already at the last patient'));
             }
         }
 
@@ -2771,7 +2799,8 @@ function selectOption(element, group) {
                 const diagnosisGroup = document.querySelectorAll('.diagnosis-group')[1]; // 临床判断组
                 const diagnosisButtons = diagnosisGroup.querySelectorAll('.option-btn');
                 diagnosisButtons.forEach(btn => {
-                    if (btn.textContent.trim() === record.diagnosis) {
+                    const btnValue = btn.getAttribute('data-diagnosis-value') || btn.textContent.trim();
+                    if (btnValue === record.diagnosis) {
                         btn.classList.add('active');
                     } else {
                         btn.classList.remove('active');
@@ -2821,7 +2850,7 @@ function selectOption(element, group) {
             
             diagnosisRecords[patient.id] = {
                 patientId: patient.id,
-                diagnosis: selectedDiagnosis.textContent.trim(),
+                diagnosis: selectedDiagnosis.getAttribute('data-diagnosis-value') || selectedDiagnosis.textContent.trim(),
                 // [修改] 判读模式存 null，教育模式存实际选择
                 severity: currentMode === 'diag' ? null : currentSeverity
             };
@@ -2840,20 +2869,20 @@ function selectOption(element, group) {
             
             // 基础校验：临床判断必须选（无论什么模式）
             if (!selectedDiagnosis) {
-                alert('请选择临床判断');
+                alert(getI18nText('diagnosis.selectDiagnosis', 'Please select clinical judgment'));
                 return false;
             }
 
             // [逻辑纠正] 仅教育模式(edu)强制要求严重度，判读模式直接跳过
             if (currentMode === 'edu' && !currentSeverity) {
-                alert('请选择诊断意见等级');
+                alert(getI18nText('diagnosis.selectSeverity', 'Please select diagnosis severity'));
                 return false;
             }
 
             const patient = patients[currentPatientIndex];
             diagnosisRecords[patient.id] = {
                 patientId: patient.id,
-                diagnosis: selectedDiagnosis.textContent.trim(),
+                diagnosis: selectedDiagnosis.getAttribute('data-diagnosis-value') || selectedDiagnosis.textContent.trim(),
                 // 判读模式传 null，教育模式传真实的严重度
                 severity: currentMode === 'diag' ? null : currentSeverity
             };
@@ -2879,13 +2908,13 @@ function selectOption(element, group) {
                     .map(p => p.id)
                     .join(', ');
                 
-                alert(`还有 ${patients.length - completedCount} 个病人未完成诊断！\n未诊断病人ID: ${undiagnosedPatients}\n\n请完成所有病人的诊断后再提交。`);
+                alert(`${getI18nText('diagnosis.remainingPatients', 'There are still')} ${patients.length - completedCount} ${getI18nText('diagnosis.patientsNotDiagnosed', 'patients not yet diagnosed!')}\n${getI18nText('diagnosis.undiagnosedPatientIds', 'Undiagnosed patient IDs:')} ${undiagnosedPatients}\n\n${getI18nText('diagnosis.completeAllFirst', 'Please complete diagnosis for all patients before submitting.')}`);
                 return;
             }
             
             
             // 直接提交，不显示汇总信息
-            if (confirm('确定提交所有诊断结果吗？')) {
+            if (confirm(getI18nText('diagnosis.confirmSubmitAll', 'Confirm submitting all diagnosis results?'))) {
                 try {
                     // [新增] 保存最后一个病例的查看时间
                     if (currentPatientStartTime !== null) {
@@ -2942,8 +2971,8 @@ function selectOption(element, group) {
                     }
                     
                     const result = await response.json();
-                    alert('诊断结果已提交并保存！');
-                    console.log('提交成功:', result);
+                    alert(getI18nText('diagnosis.submittedSuccess', 'Diagnosis submitted and saved!'));
+                    console.log(getI18nText('diagnosis.submitSuccess', 'Submit success:'), result);
                     
                     // 提交成功后清除草稿
                     clearDraft();
@@ -2951,8 +2980,8 @@ function selectOption(element, group) {
                     // [核心修改] 根据模式返回对应的状态界面
                     showEduCompleteModal(currentMode);
                 } catch (error) {
-                    console.error('提交失败:', error);
-                    alert('提交失败，请重试');
+                    console.error(getI18nText('diagnosis.submitFailed', 'Submit failed:'), error);
+                    alert(getI18nText('diagnosis.submitFailed', 'Submit failed, please retry'));
                 }
             }
         }
@@ -2967,7 +2996,7 @@ function selectOption(element, group) {
             const selectedDiagnosis = diagnosisGroup.querySelector('.option-btn.active');
             
             if (!selectedDiagnosis) {
-                alert('请先选择临床判断！');
+                alert(getI18nText('diagnosis.selectDiagnosisFirst2', 'Please select clinical judgment first!'));
                 return;
             }
             
@@ -3006,13 +3035,13 @@ function selectOption(element, group) {
             }
             if (btn) {
                 if (mode === 'edu') {
-                    btn.textContent = '返回教育练习中心';
+                    btn.textContent = getI18nText('diagnosis.backToEducation', 'Back to Education Center');
                     btn.onclick = () => {
                         modal.style.display = 'none';
                         window.location.href = '/edu_status';
                     };
                 } else {
-                    btn.textContent = '返回诊断任务列表';
+                    btn.textContent = getI18nText('diagnosis.backToTaskList', 'Back to Task List');
                     btn.onclick = () => {
                         modal.style.display = 'none';
                         window.location.href = '/task_status';
