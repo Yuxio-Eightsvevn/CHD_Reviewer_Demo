@@ -1,0 +1,44 @@
+# Python缓存
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 日志文件
+*.log
+app.log
+
+# 数据库文件（users.db 需要推送到 Git）
+# *.db
+
+# 数据存储目录
+data_batch_storage/
+
+# 临时文件
+*.tmp
+*.bak
+dashboard_old.html
+tester.py
+
+# 环境文件
+.env
+.venv
+env/
+venv/
+
+# IDE配置
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# AI模型权重 (忽略但不跟踪)
+model/**/*.pth
+model/**/*.pt
+!model/Baseline_4size/.gitkeep
+!model/multiviews/.gitkeep
+!model/singleview/.gitkeep
+诊断平台网页使用指南.pdf
+诊断平台网页使用指南_v2.md

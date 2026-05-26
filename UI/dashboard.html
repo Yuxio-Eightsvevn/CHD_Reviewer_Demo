@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>任务批次接收 - 儿童先心病诊断平台</title>
+  <style>
+    /* 样式部分完全保持不变，以维护您的 UI 外观 */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; color: #333; min-height: 100vh; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 16px; align-items: flex-start; }
+    .sidebar { width: 220px; }
+    .main { flex: 1; }
+    .navbar { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; padding: 22px 30px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; }
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-top: 20px; min-height: 500px; }
+    h1 { font-size: 22px; margin-bottom: 14px; }
+    .stats-container { background: white; border-radius: 12px; padding: 16px 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eef2f7; }
+    .task-count-box { font-size: 16px; font-weight: 700; color: #4b5563; }
+    .task-count-number { color: #667eea; font-size: 20px; margin: 0 4px; }
+    .request-name-container { background: #f8faff; border: 1px solid #d7e2ff; border-radius: 12px; padding: 16px 20px; margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+    .request-name-container label { font-weight: 700; color: #4b5563; white-space: nowrap; }
+    .request-name-container input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #c9d7ff; font-size: 15px; font-weight: 600; outline: none; }
+    .dropzone { border: 2px dashed #c9d7ff; border-radius: 12px; padding: 75px; text-align: center; cursor: pointer; background: #fff; transition: all .15s; min-height: 225px; }
+    .dropzone.dragover { border-color: #667eea; background: #eef4ff; }
+    .controls { display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
+    .btn { padding:12px 20px; border-radius:8px; border:none; cursor:pointer; background:#667eea; color:white; font-weight: 600; font-size: 15px; transition: all 0.2s; }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn.secondary { background: #ff5252; color: white; }
+    .btn.view-tasks { background: #10b981; }
+    .hint { color:#666; font-size:13px; }
+    .rows { margin-top:16px; display:flex; flex-direction:column; gap:12px; }
+    .row-card { border:1px solid #e6eefc; border-radius:10px; padding:12px; background:white; display:flex; gap:12px; align-items:flex-start; justify-content:space-between; }
+    .row-left { flex:1; display:flex; flex-direction:column; gap:8px; }
+    .case-name { display:flex; gap:8px; align-items:center; }
+    .case-name input { padding:8px 10px; border-radius:6px; border:1px solid #d7e2ff; }
+    .thumbs { display:flex; gap:8px; flex-wrap:wrap; }
+    .thumb { width:160px; border-radius:6px; overflow:hidden; border:1px solid #eee; background:#000; color:white; position:relative; }
+    .thumb img, .thumb canvas { display:block; width:100%; height:90px; object-fit:cover; }
+    .thumb .label { padding:6px; font-size:12px; background:white; color:#333; text-align:center; }
+    .thumb .del-single { position:absolute; top:6px; right:6px; background:rgba(0,0,0,0.6); color:white; border-radius:12px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+    .bottom-actions { display:flex; gap:12px; margin-top:16px; justify-content:flex-end; }
+    .alert { padding:10px 12px; border-radius:8px; background:#fff3cd; color:#856404; margin-top:10px; }
+    .rows-container-wrapper { max-height: 360px; overflow-y: auto; border: 1px solid #e6eefc; border-radius: 8px; }
+    @media (max-width:960px) { .container { flex-direction:column; } .sidebar { width:100%; } }
+    /* 背景层 - 伪元素，最底层 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      z-index: -2;
+      pointer-events: none;
+    }
+    body.has-bg::before { background-image: var(--bg-image, none); }
+    /* 标题层 - 在背景上，内容下方 */
+    .title-overlay { position: fixed; top: 20px; left: 30px; z-index: -1; pointer-events: none; }
+    .title-overlay h1 { font-size: 28px; color: #1e293b; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); margin: 0; }
+    .title-overlay p { font-size: 14px; color: #64748b; margin: 5px 0 0 0; }
+  </style>
+</head>
+<body>
+  <!-- 标题层 -->
+  <div class="title-overlay" id="titleOverlay">
+    <h1 id="bg-title"></h1>
+    <p id="bg-subtitle"></p>
+  </div>
+  <div class="container">
+    <div class="sidebar">
+      <div class="card" style="margin-top:0">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div id="avatarBox" style="width:48px;height:48px;border-radius:24px;background:#e9eefc;display:flex;align-items:center;justify-content:center;color:#667eea; font-weight:700;">U</div>
+          <div>
+            <div id="currentUserName" style="font-weight:700">加载中...</div>
+            <div id="currentUserOrg" style="font-size:13px;color:#666">...</div>
+          </div>
+        </div>
+        <hr style="margin:12px 0;border:none;border-top:1px solid #f0f3ff;">
+        <ul style="margin-top:8px;color:#666;font-size:13px;line-height:1.6">
+          <li>每个病例最多 5 个视频。</li>
+          <li>支持文件夹拖拽与自动缩略图。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="navbar">
+        <div>👩‍⚕️ 任务批次接收</div>
+        <div><button id="logoutBtn" class="btn secondary">返回</button></div>
+      </div>
+
+      <div class="stats-container">
+        <div class="task-count-box">已上传任务数：<span id="uploadedTaskCount" class="task-count-number">-</span></div>
+        <button id="viewTasksBtn" class="btn view-tasks">📋 查看已上传任务</button>
+      </div>
+
+      <div class="request-name-container">
+        <label for="requestNameInput">当前任务名称：</label>
+        <input id="requestNameInput" type="text" placeholder="Task_YYYYMMDD_HHMMSS" />
+      </div>
+
+      <div class="card">
+        <h1>上传任务数据</h1>
+        <div class="controls">
+          <button id="chooseFolderBtn" class="btn secondary" style="background:#667eea">选择文件夹</button>
+          <input id="folderInput" type="file" webkitdirectory multiple style="display:none" />
+          <button id="chooseFilesBtn" class="btn secondary" style="background:#667eea">选择视频文件</button>
+          <input id="fileInput" type="file" accept="video/*" multiple style="display:none" />
+          <button id="addCaseBtn" class="btn" style="background:#20c997">新增病例</button>
+          <div style="flex:1"></div>
+          <div id="statusHint" class="hint">可拖拽文件夹到下方区域</div>
+        </div>
+        <div id="dropzone" class="dropzone">将文件或文件夹拖放到此处</div>
+        <div id="messages"></div>
+        <div id="rowsContainerWrapper" class="rows-container-wrapper">
+          <div id="rowsContainer" class="rows"></div>
+        </div>
+        <div class="bottom-actions">
+          <button id="clearBtn" class="btn secondary" style="background:#94a3b8">清空</button>
+          <button id="uploadBtn" class="btn">确认上传</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const MAX_VIDEOS_PER_CASE = 5;
+      const ALLOWED_EXT = ['.mp4', '.avi', '.mov', '.mkv'];
+
+      const requestNameInput = document.getElementById('requestNameInput');
+      const viewTasksBtn = document.getElementById('viewTasksBtn');
+      const folderInput = document.getElementById('folderInput');
+      const fileInput = document.getElementById('fileInput');
+      const chooseFolderBtn = document.getElementById('chooseFolderBtn');
+      const chooseFilesBtn = document.getElementById('chooseFilesBtn');
+      const addCaseBtn = document.getElementById('addCaseBtn');
+      addCaseBtn.onclick = () => {
+        const newCase = { caseName: `patient ${staging.length + 1}`, files: [] };
+        staging.push(newCase);
+        renderRows();
+      };
+      const dropzone = document.getElementById('dropzone');
+      const rowsContainer = document.getElementById('rowsContainer');
+      const messages = document.getElementById('messages');
+      const uploadBtn = document.getElementById('uploadBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      let currentUser = null;
+      let staging = [];
+
+      function generateDefaultRequestName() {
+        const now = new Date();
+        const pad = (n) => n.toString().padStart(2, '0');
+        return `Task_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+      }
+      requestNameInput.value = generateDefaultRequestName();
+
+      viewTasksBtn.onclick = () => { window.location.href = '/task_status'; };
+
+      async function fetchUploadCount(username) {
+        try {
+          const res = await fetch(`/api/users/${encodeURIComponent(username)}/oridata-count?_t=${Date.now()}`);
+          if (res.ok) {
+            const data = await res.json();
+            document.getElementById('uploadedTaskCount').textContent = data.count ?? '0';
+          }
+        } catch (e) { document.getElementById('uploadedTaskCount').textContent = '0'; }
+      }
+
+      // --- [同步自 task_status.html 的用户信息加载逻辑] ---
+      let avatarConfig = { avatars: {} };
+
+      async function loadAvatarConfig() {
+          try {
+              const r = await fetch('/UI/res/share/user_avatar_config.json');
+              if (r.ok) {
+                  avatarConfig = await r.json();
+              }
+          } catch (e) {
+              console.warn('头像配置加载失败，使用默认头像');
+          }
+      }
+
+      async function setUserAvatar(avatarElem, username) {
+          const avatarPath = avatarConfig.avatars[username];
+          if (avatarPath) {
+              avatarElem.innerHTML = `<img src="/UI/${avatarPath}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.parentElement.textContent='${username ? username[0].toUpperCase() : 'U'}'">`;
+          } else {
+              avatarElem.textContent = username ? username[0].toUpperCase() : 'U';
+          }
+      }
+
+      async function loadCurrentUser() {
+        await loadAvatarConfig();
+        try {
+          const r = await fetch('/api/users/current');
+          if (r.ok) {
+            const d = await r.json();
+            if (d && d.data) {
+              currentUser = d.data;
+              document.getElementById('currentUserName').textContent = currentUser.doctor || currentUser.username;
+              document.getElementById('currentUserOrg').textContent = currentUser.organization || '未知机构';
+              setUserAvatar(document.getElementById('avatarBox'), currentUser.username);
+              fetchUploadCount(currentUser.username);
+              return;
+            }
+          }
+        } catch (e) { console.error("Session Error", e); }
+        document.getElementById('currentUserName').textContent = "未登录";
+      }
+
+      // --- [核心：递归文件夹算法回归] ---
+      async function traverse(entry, path = '', files = []) {
+        if (entry.isFile) {
+          await new Promise(resolve => {
+            entry.file(file => {
+              file.relativePath = path + file.name;
+              files.push(file);
+              resolve();
+            });
+          });
+        } else if (entry.isDirectory) {
+          const reader = entry.createReader();
+          const entries = await new Promise(resolve => reader.readEntries(resolve));
+          for (const child of entries) {
+            await traverse(child, path + entry.name + '/', files);
+          }
+        }
+        return files;
+      }
+
+      // --- [核心：路径解析逻辑回归 (CASE A/B1/B2)] ---
+      async function handleIncomingFiles(fileList) {
+        const fileObjs = fileList.map(f => ({
+          file: f,
+          rel: (f.webkitRelativePath || f.relativePath || f.name).replace(/^\/+/, '')
+        }));
+
+        const anySlash = fileObjs.some(o => o.rel.includes('/'));
+        
+        if (anySlash) {
+          const partsList = fileObjs.map(o => o.rel.split('/').filter(p => p && p !== '.'));
+          
+          if (partsList.every(p => p.length >= 3)) { // CASE B1: TaskName/patient001/video.mp4
+            // 提取任务名称（第一层目录名）
+            const taskName = partsList[0][0];
+            requestNameInput.value = taskName;
+            
+            const groups = {};
+            fileObjs.forEach((o, i) => {
+              const cName = partsList[i][1];
+              groups[cName] = groups[cName] || [];
+              groups[cName].push({ file: o.file, rel: partsList[i].slice(2).join('/') });
+            });
+            for (const [cName, files] of Object.entries(groups)) {
+              const row = { caseName: cName, files: [] };
+              for (const it of files) {
+                row.files.push({ file: it.file, relativePath: it.rel, thumbDataUrl: await createVideoThumbnail(it.file) });
+              }
+              staging.push(row);
+            }
+          } else if (partsList.every(p => p.length === 2)) { // CASE B2: patient001/video.mp4
+            const groups = {};
+            fileObjs.forEach((o, i) => {
+              const cName = partsList[i][0];
+              groups[cName] = groups[cName] || [];
+              groups[cName].push({ file: o.file, rel: partsList[i][1] });
+            });
+            for (const [cName, files] of Object.entries(groups)) {
+              const row = { caseName: cName, files: [] };
+              for (const it of files) {
+                row.files.push({ file: it.file, relativePath: it.rel, thumbDataUrl: await createVideoThumbnail(it.file) });
+              }
+              staging.push(row);
+            }
+          }
+        } else { // CASE A
+          const row = { caseName: `patient ${staging.length + 1}`, files: [] };
+          for (const it of fileObjs) {
+            row.files.push({ file: it.file, relativePath: null, thumbDataUrl: await createVideoThumbnail(it.file) });
+          }
+          staging.push(row);
+        }
+        renderRows();
+      }
+
+      function setupDropzone() {
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+        dropzone.ondrop = async (e) => {
+          e.preventDefault(); dropzone.classList.remove('dragover');
+          const items = e.dataTransfer.items;
+          if (items && items.length > 0 && items[0].webkitGetAsEntry) {
+            let allFiles = [];
+            for (const item of items) {
+              const entry = item.webkitGetAsEntry();
+              if (entry) await traverse(entry, '', allFiles);
+            }
+            handleIncomingFiles(allFiles);
+          }
+        };
+      }
+
+      async function createVideoThumbnail(file) {
+        return new Promise((resolve) => {
+          const url = URL.createObjectURL(file);
+          const video = document.createElement('video');
+          video.preload = 'metadata'; video.muted = true; video.src = url;
+          
+          video.onloadedmetadata = () => {
+            // 更全面的视频长度检查
+            if (!video.duration || video.duration <= 0 || isNaN(video.duration)) {
+              URL.revokeObjectURL(url);
+              resolve('');
+              return;
+            }
+            
+            const seekTime = Math.min(0.05, video.duration * 0.5);
+            video.currentTime = seekTime;
+            
+            video.onseeked = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = 320; canvas.height = 180;
+              canvas.getContext('2d').drawImage(video, 0, 0, 320, 180);
+              URL.revokeObjectURL(url);
+              resolve(canvas.toDataURL('image/jpeg'));
+            };
+            
+            video.onerror = () => {
+              URL.revokeObjectURL(url);
+              resolve('');
+            };
+          };
+          
+          video.onerror = () => {
+            URL.revokeObjectURL(url);
+            resolve('');
+          };
+          
+          // 设置更合理的超时
+          setTimeout(() => {
+            if (!video.seeked) {
+              URL.revokeObjectURL(url);
+              resolve('');
+            }
+          }, 3000); // 3秒超时
+        });
+      }
+
+      function renderRows() {
+        rowsContainer.innerHTML = '';
+        staging.forEach((c, i) => {
+          const row = document.createElement('div'); row.className = 'row-card';
+          row.innerHTML = `
+            <div class="row-left">
+              <div class="case-name">病例名：<input value="${c.caseName}" oninput="staging[${i}].caseName=this.value"></div>
+              <div class="thumbs"></div>
+              <div class="case-dropzone" style="border: 2px dashed #c9d7ff; border-radius: 12px; padding: 15px; text-align: center; margin-top: 8px; cursor: pointer;">
+                拖拽视频到此处
+              </div>
+            </div>
+            <div class="row-actions">
+              <button class="btn" onclick="addVideoToCase(${i})" style="margin-bottom: 8px;">添加视频</button>
+              <button class="btn secondary" onclick="staging.splice(${i},1);renderRows()">删除病例</button>
+            </div>
+          `;
+          
+          // 为每个病例的拖拽区域添加事件
+          const caseDropzone = row.querySelector('.case-dropzone');
+          caseDropzone.ondragover = (e) => { e.preventDefault(); caseDropzone.style.borderColor = '#667eea'; };
+          caseDropzone.ondragleave = () => { caseDropzone.style.borderColor = '#c9d7ff'; };
+          caseDropzone.ondrop = async (e) => {
+            e.preventDefault();
+            caseDropzone.style.borderColor = '#c9d7ff';
+            const items = e.dataTransfer.items;
+            if (items && items.length > 0) {
+              let files = [];
+              for (const item of items) {
+                if (item.kind === 'file') {
+                  const file = item.getAsFile();
+                  if (file && ALLOWED_EXT.includes('.' + file.name.split('.').pop().toLowerCase())) {
+                    files.push(file);
+                  }
+                }
+              }
+              files.forEach(file => {
+                staging[i].files.push({ file: file, relativePath: null, thumbDataUrl: '' });
+              });
+              renderRows();
+              // 重新生成缩略图
+              staging[i].files.forEach((f, idx) => {
+                if (!f.thumbDataUrl) {
+                  createVideoThumbnail(f.file).then(thumb => {
+                    staging[i].files[idx].thumbDataUrl = thumb;
+                    renderRows();
+                  });
+                }
+              });
+            }
+          };
+          
+          const tCont = row.querySelector('.thumbs');
+          c.files.forEach((f, fileIndex) => {
+            const t = document.createElement('div'); t.className = 'thumb';
+            t.innerHTML = `
+              <img src="${f.thumbDataUrl || ''}">
+              <div class="label">${f.file.name}</div>
+              <div class="del-single" data-case="${i}" data-file="${fileIndex}">✕</div>
+            `;
+            tCont.appendChild(t);
+          });
+          rowsContainer.appendChild(row);
+        });
+        
+        // 为所有删除按钮添加事件监听器（解决作用域问题）
+        document.querySelectorAll('.del-single').forEach(button => {
+          button.addEventListener('click', function() {
+            const caseIndex = parseInt(this.dataset.case);
+            const fileIndex = parseInt(this.dataset.file);
+            deleteVideoFromCase(caseIndex, fileIndex);
+          });
+        });
+      }
+
+      // dashboard.html 修正后的上传逻辑
+      uploadBtn.onclick = async () => {
+        if (!staging.length || !currentUser) return;
+        
+        const form = new FormData();
+        form.append('request_name', requestNameInput.value);
+        
+        // [核心修改] 显式配对上传
+        staging.forEach(c => {
+          c.files.forEach(f => {
+            // 1. 发送原始文件对象
+            form.append('files', f.file); 
+            // 2. 同步发送该文件所属的病例名（确保后端收到的列表索引一致）
+            form.append('case_names', c.caseName); 
+          });
+        });
+
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "正在传输...";
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `/api/users/${encodeURIComponent(currentUser.username)}/upload-oridata`);
+        
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            uploadBtn.textContent = `上传中 ${Math.round((e.loaded/e.total)*100)}%`;
+          }
+        };
+
+        xhr.onload = () => {
+          uploadBtn.disabled = false;
+          uploadBtn.textContent = "确认上传";
+          if (xhr.status === 200) { 
+            const resp = xhr.response;
+            if (resp.warnings && resp.warnings.length > 0) {
+              alert("⚠️ 部分病例被截断：\n" + resp.warnings.join("\n"));
+            } else {
+              showMessage('✅ 上传成功'); 
+            }
+            staging = []; renderRows(); 
+            requestNameInput.value = generateDefaultRequestName();
+            setTimeout(() => fetchUploadCount(currentUser.username), 500);
+          } else {
+            alert("❌ 上传失败：" + (xhr.response?.detail || "服务器错误"));
+          }
+        };
+        xhr.send(form);
+      };
+
+      function showMessage(t) { const m = document.createElement('div'); m.className='alert'; m.textContent=t; messages.appendChild(m); setTimeout(()=>m.remove(), 3000); }
+      
+      // 删除视频的函数
+      function deleteVideoFromCase(caseIndex, fileIndex) {
+        staging[caseIndex].files.splice(fileIndex, 1);
+        renderRows();
+      }
+      
+      // 添加视频到病例的函数
+      function addVideoToCase(caseIndex) {
+        fileInput.click();
+        fileInput.onchange = (e) => {
+          const files = Array.from(e.target.files);
+          files.forEach(file => {
+            staging[caseIndex].files.push({
+              file: file,
+              relativePath: null,
+              thumbDataUrl: '' // 将在后续处理中生成
+            });
+          });
+          renderRows();
+          // 重新生成缩略图
+          staging[caseIndex].files.forEach((f, idx) => {
+            if (!f.thumbDataUrl) {
+              createVideoThumbnail(f.file).then(thumb => {
+                staging[caseIndex].files[idx].thumbDataUrl = thumb;
+                renderRows();
+              });
+            }
+          });
+        };
+      }
+      
+      chooseFolderBtn.onclick = () => folderInput.click();
+      folderInput.onchange = (e) => handleIncomingFiles(Array.from(e.target.files));
+      chooseFilesBtn.onclick = () => fileInput.click();
+      fileInput.onchange = (e) => handleIncomingFiles(Array.from(e.target.files));
+      clearBtn.onclick = () => { staging = []; renderRows(); };
+      logoutBtn.onclick = () => { window.location.href = '/flow'; };
+
+      loadCurrentUser(); setupDropzone();
+      // 挂载到 window 确保内联 onclick 可用
+      Object.defineProperty(window, 'staging', {
+          get: () => staging,
+          set: (val) => { staging = val; }
+      });
+      window.addVideoToCase = addVideoToCase;
+      window.renderRows = renderRows;
+
+      // 初始化背景配置
+      (async function initBackground() {
+        try {
+          const r = await fetch('/res/share/background_config.json');
+          const config = await r.json();
+          if (config.enabled) {
+            // 背景图控制
+            if (config.showBackground && config.image) {
+              document.body.style.setProperty('--bg-image', `url('/res/share/${config.image}')`);
+              document.body.classList.add('has-bg');
+            } else {
+              document.body.classList.remove('has-bg');
+            }
+            // 标题控制
+            if (config.showTitle) {
+              document.getElementById('bg-title').textContent = config.title || '';
+              document.getElementById('bg-subtitle').textContent = config.subtitle || '';
+              document.getElementById('titleOverlay').style.display = 'block';
+            } else {
+              document.getElementById('titleOverlay').style.display = 'none';
+            }
+          } else {
+            document.getElementById('titleOverlay').style.display = 'none';
+            document.body.classList.remove('has-bg');
+          }
+        } catch (e) { console.warn('背景配置加载失败:', e); }
+      })();
+    })();
+  </script>
+</body>
+</html>

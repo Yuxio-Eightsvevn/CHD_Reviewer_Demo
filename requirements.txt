@@ -1,0 +1,38 @@
+# Web Framework
+fastapi==0.109.0
+uvicorn==0.27.0
+python-multipart==0.0.6
+
+# Async File Operations
+aiofiles>=23.2.1
+
+# Async HTTP Client (for LLM API calls)
+aiohttp==3.9.5
+
+# Data Validation
+pydantic>=2.5.0
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Image Processing
+opencv-python>=4.5.0
+Pillow>=9.0.0
+
+# Data Processing
+numpy>=1.21.0
+
+# Progress Bar
+tqdm>=4.60.0
+
+# Configuration
+PyYAML>=6.0
+
+# Model-specific dependencies
+einops>=0.6.0
+entmax>=1.0
+
+# System Dependencies:
+# - ffmpeg (for video processing) - Must be installed separately
+# - SQLite3 (included in Python standard library)
