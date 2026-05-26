@@ -1,14 +1,10 @@
 [
   {
     "filename": "pic_01.png",
-    "caption": "多维度诊断视图"
+    "caption": "Multidimensional Diagnostic View"
   },
   {
     "filename": "pic_02.png",
-    "caption": "关键帧精准定位"
-  },
-  {
-    "filename": "pic_03.png",
-    "caption": "AI专家报告分析"
+    "caption": "Precise Key Frame Localization"
   }
 ]
