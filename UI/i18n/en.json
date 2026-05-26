@@ -111,7 +111,7 @@
   },
   "loading": "Loading...",
   "login": {
-    "featuresTitle": "Core Features",
+    "clickToLogin": "Click to Login",
     "usernameLabel": "Username",
     "usernamePlaceholder": "Please enter username",
     "passwordLabel": "Password",
@@ -119,10 +119,7 @@
     "loginBtn": "Login",
     "loginBtnLoading": "Logging in...",
     "loginFailed": "Login failed",
-    "fillBothFields": "Please fill in username and password",
-    "closeBtn": "Close",
-    "configLoadFailed": "Failed to load config:",
-    "carouselLoadFailed": "Failed to load carousel images:"
+    "fillBothFields": "Please fill in username and password"
   },
   "admin": {
     "title": "User Management",

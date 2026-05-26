@@ -1,272 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登录 - CHD-AIDE</title>
+    <title>CHD-AIDE</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="res/login/css/main.css">
     <style>
         :root {
             --primary-color: #3a7bd5;
             --primary-dark: #3069b4;
-            --text-light: #888;
-            --text-dark: #333;
-            --bg-light: #f5f7fa;
-            --max-width: 1440px;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg-light);
+            background: #f5f7fa;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        /* 背景层 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3;
-            z-index: -2;
-            pointer-events: none;
-        }
-        body.has-bg::before { background-image: var(--bg-image, none); }
-        body.has-bg { background: #f5f7fa; }
-
-        /* Header */
-        .header {
-            width: 95%;
-            max-width: var(--max-width);
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #5a9bd4 100%);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            padding: 0 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(58, 123, 213, 0.3);
-        }
-        .header-title {
-            color: white;
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        /* TitleField */
-        .title-field {
-            width: 90%;
-            max-width: var(--max-width);
-            display: flex;
-            gap: 40px;
-            margin-bottom: 30px;
-            background: white;
-            border-radius: 16px;
-            padding: 52px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-        .title-field-left {
-            flex: 0 0 60%;
-            display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
-        .title-field-left img {
-            max-width: 100%;
-            max-height: 390px;
-            border-radius: 12px;
-            object-fit: cover;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .title-field-right {
-            flex: 0 0 40%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-right: 20px;
-        }
-        .welcome-text {
-            color: #333;
-            font-size: 16px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-        .main-title {
-            color: var(--text-dark);
-            font-size: 60px;
-            font-weight: 800;
-            margin: 0 0 8px 0;
-            letter-spacing: 4px;
-        }
-        .subtitle {
-            color: var(--primary-color);
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
-        }
-        .description-text {
-            color: var(--text-dark);
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 2;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            text-justify: inter-character;
-            text-align: justify;
-        }
-        .login-btn-title {
-            padding: 18px 50px;
+
+        .login-btn {
+            padding: 20px 60px;
             background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             cursor: pointer;
-            align-self: center;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
         }
-        .login-btn-title:hover {
+        .login-btn:hover {
             filter: brightness(1.1);
             background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
-        }
-
-        /* MainContent */
-        .main-content {
-            width: 90%;
-            max-width: var(--max-width);
-        }
-
-        /* 轮播图 */
-        .carousel-container {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        .carousel-viewport {
-            position: relative;
-            width: 100%;
-            height: 455px;
-            perspective: 1000px;
-            overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        .carousel-stack {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        .carousel-card {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.6s ease, opacity 0.6s ease;
-            cursor: pointer;
-            background: #f0f0f0;
-        }
-        .carousel-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .carousel-card .card-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-            font-size: 16px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .carousel-card:hover .card-caption {
-            opacity: 1;
-        }
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
-        }
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            background: #ccc;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .carousel-dot.active {
-            background: var(--primary-color);
-            width: 24px;
-        }
-        .carousel-dot:hover {
-            background: var(--primary-color);
-        }
-
-        /* 核心功能 */
-        .features-title {
-            color: var(--text-dark);
-            font-size: 24px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .features-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .feature-item {
-            text-align: center;
-        }
-        @media (max-width: 1200px) {
-            .features-row { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 900px) {
-            .features-row { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .features-row { grid-template-columns: 1fr; }
-        }
-        .feature-content {
-            display: inline-block;
-            width: 80%;
-            text-align: left;
-        }
-        .feature-content h3 {
-            color: var(--primary-color);
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-color);
-        }
-        .feature-content p {
-            color: var(--text-light);
-            font-size: 17px;
-            line-height: 1.7;
-            margin: 12px 0 0 0;
         }
 
         /* 登录弹窗 */
@@ -306,7 +76,7 @@
             margin-bottom: 25px;
             text-align: center;
             font-size: 24px;
-            color: var(--text-dark);
+            color: #333;
         }
         .login-modal-card .form-group {
             margin-bottom: 18px;
@@ -315,7 +85,7 @@
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
-            color: var(--text-dark);
+            color: #333;
         }
         .login-modal-card .form-group input {
             width: 100%;
@@ -357,40 +127,8 @@
         .login-modal-card .error-msg.show { display: block; }
     </style>
 </head>
-<body class="no-sidebar is-preload">
-    <!-- Header -->
-    <header class="header">
-        <span class="header-title" id="headerTitle"></span>
-    </header>
-
-    <!-- TitleField -->
-    <section class="title-field">
-        <div class="title-field-left">
-            <img id="titleImage" src="res/login/images/pic_01.png" alt="平台图片">
-        </div>
-        <div class="title-field-right">
-            <p class="welcome-text" id="welcomeText"></p>
-            <h1 class="main-title" id="mainTitle"></h1>
-            <p class="subtitle" id="subtitle"></p>
-            <p class="description-text" id="descriptionText"></p>
-            <button class="login-btn-title" id="loginBtnTitle" onclick="openLoginModal()"></button>
-        </div>
-    </section>
-
-    <!-- MainContent -->
-    <main class="main-content">
-        <!-- 轮播图 -->
-        <div class="carousel-container">
-            <div class="carousel-viewport">
-                <div class="carousel-stack" id="carouselStack"></div>
-            </div>
-            <div class="carousel-dots" id="carouselDots"></div>
-        </div>
-
-        <!-- 核心功能 -->
-        <h2 class="features-title" id="featuresTitle" data-i18n="login.featuresTitle">Core Features</h2>
-        <div class="features-row" id="featuresRow"></div>
-    </main>
+<body>
+    <button class="login-btn" id="loginBtnTitle" data-i18n="login.clickToLogin" onclick="openLoginModal()">Click to Login</button>
 
     <!-- Login Modal -->
     <div class="login-modal" id="loginModal">
@@ -410,16 +148,7 @@
         </div>
     </div>
 
-    <script src="res/login/js/jquery.min.js"></script>
-    <script src="res/login/js/browser.min.js"></script>
-    <script src="res/login/js/breakpoints.min.js"></script>
-    <script src="res/login/js/util.js"></script>
-    <script src="res/login/js/main.js"></script>
     <script>
-        var config = {};
-        var carouselImages = [];
-        var currentSlide = 0;
-        var carouselInterval = null;
         var i18n = {};
         var langConfig = {};
 
@@ -453,153 +182,6 @@
                 const key = el.getAttribute('data-i18n-placeholder');
                 el.placeholder = t(key, el.placeholder);
             });
-        }
-
-        async function loadConfig() {
-            try {
-                const configName = langConfig.current === 'en' ? 'UI/login_config_en.json' : 'UI/login_config.json';
-                var resp = await fetch(configName);
-                config = await resp.json();
-                renderContent();
-                applyBackground();
-            } catch (e) {
-                console.error(t('login.configLoadFailed', 'Failed to load config:'), e);
-            }
-        }
-
-        async function loadCarouselImages() {
-            try {
-                var resp = await fetch('res/login/images/carousel_images.json');
-                carouselImages = await resp.json();
-                renderCarousel();
-                startAutoPlay();
-            } catch (e) {
-                console.error(t('login.carouselLoadFailed', 'Failed to load carousel images:'), e);
-            }
-        }
-
-        function applyBackground() {
-            if (config.background && config.background.trim() !== '') {
-                document.body.classList.add('has-bg');
-                document.body.style.setProperty('--bg-image', 'url(' + config.background + ')');
-            } else {
-                document.body.classList.remove('has-bg');
-            }
-        }
-
-        function renderContent() {
-            // Header
-            if (config.header && config.header.title) {
-                document.getElementById('headerTitle').textContent = config.header.title;
-            }
-
-            // TitleField
-            if (config.titleField) {
-                var tf = config.titleField;
-                if (tf.image) {
-                    document.getElementById('titleImage').src = tf.image;
-                }
-                if (tf.welcomeText) {
-                    document.getElementById('welcomeText').textContent = tf.welcomeText;
-                }
-                if (tf.mainTitle) {
-                    document.getElementById('mainTitle').textContent = tf.mainTitle;
-                }
-                if (tf.subtitle) {
-                    document.getElementById('subtitle').textContent = tf.subtitle;
-                }
-                if (tf.description) {
-                    document.getElementById('descriptionText').textContent = tf.description;
-                }
-                if (tf.loginButtonText) {
-                    document.getElementById('loginBtnTitle').textContent = tf.loginButtonText;
-                }
-            }
-
-            // Features
-            var featuresRow = document.getElementById('featuresRow');
-            if (config.features && featuresRow) {
-                featuresRow.innerHTML = config.features.map(function(f) {
-                    return '<div class="feature-item">' +
-                        '<div class="feature-content">' +
-                            '<h3>' + f.title + '</h3>' +
-                            '<p>' + f.description + '</p>' +
-                        '</div>' +
-                    '</div>';
-                }).join('');
-            }
-
-            // Document title
-            if (config.header && config.header.title) {
-                document.title = '登录 - ' + config.header.title;
-            }
-        }
-
-        function renderCarousel() {
-            var stack = document.getElementById('carouselStack');
-            var dots = document.getElementById('carouselDots');
-            if (!stack || !carouselImages.length) return;
-
-            stack.innerHTML = carouselImages.map(function(img, i) {
-                return '<div class="carousel-card" data-index="' + i + '">' +
-                    '<img src="res/login/images/' + img.filename + '" alt="' + img.caption + '">' +
-                    '<div class="card-caption">' + img.caption + '</div>' +
-                '</div>';
-            }).join('');
-
-            dots.innerHTML = carouselImages.map(function(_, i) {
-                return '<div class="carousel-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></div>';
-            }).join('');
-
-            updateCarouselPositions();
-
-            dots.querySelectorAll('.carousel-dot').forEach(function(dot) {
-                dot.addEventListener('click', function() {
-                    goToSlide(parseInt(this.dataset.index));
-                });
-            });
-        }
-
-        function updateCarouselPositions() {
-            var cards = document.querySelectorAll('.carousel-card');
-            var total = carouselImages.length;
-
-            cards.forEach(function(card, i) {
-                var offset = i - currentSlide;
-                var absOffset = Math.abs(offset);
-
-                if (offset === 0) {
-                    card.style.transform = 'translateX(0) scale(1)';
-                    card.style.zIndex = total;
-                    card.style.opacity = '1';
-                } else {
-                    var scale = 1 - (absOffset * 0.05);
-                    var translateX = offset > 0 ? '30px' : '-30px';
-                    var translateY = absOffset * 8 + 'px';
-                    card.style.transform = 'translateX(' + translateX + ') translateY(' + translateY + ') scale(' + scale + ')';
-                    card.style.zIndex = total - absOffset;
-                    card.style.opacity = absOffset > 2 ? '0' : '0.6';
-                }
-            });
-
-            document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarouselPositions();
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % carouselImages.length;
-            updateCarouselPositions();
-        }
-
-        function startAutoPlay() {
-            if (carouselInterval) clearInterval(carouselInterval);
-            carouselInterval = setInterval(nextSlide, 5000);
         }
 
         function openLoginModal() {
@@ -660,10 +242,7 @@
             if (e.key === 'Enter') doLogin();
         });
 
-        loadI18n().then(() => {
-            loadConfig();
-            loadCarouselImages();
-        });
+        loadI18n();
     </script>
 </body>
 </html>

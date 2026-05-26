@@ -116,7 +116,7 @@
 
   "loading": "加载中...",
   "login": {
-    "featuresTitle": "核心功能",
+    "clickToLogin": "点击登录",
     "usernameLabel": "用户名",
     "usernamePlaceholder": "请输入用户名",
     "passwordLabel": "密码",
@@ -124,10 +124,7 @@
     "loginBtn": "登录",
     "loginBtnLoading": "登录中...",
     "loginFailed": "登录失败",
-    "fillBothFields": "请填写用户名和密码",
-    "closeBtn": "关闭",
-    "configLoadFailed": "加载配置失败:",
-    "carouselLoadFailed": "加载轮播图片失败:"
+    "fillBothFields": "请填写用户名和密码"
   },
   "admin": {
     "title": "用户管理系统",
