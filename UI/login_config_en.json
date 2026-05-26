@@ -1,13 +1,13 @@
 {
   "header": {
-    "title": "CHD-AIDE"
+    "title": "CHD-CARE"
   },
   "titleField": {
     "image": "res/login/images/title.jpg",
-    "welcomeText": "Welcome to CHD-AIDE Platform",
-    "mainTitle": "CHD-AIDE",
+    "welcomeText": "Welcome to CHD-CARE Platform",
+    "mainTitle": "CHD-CARE",
     "subtitle": "AI-Assisted Diagnosis and Education System",
-    "description": "CHD-AIDE is an AI-assisted platform specializing in congenital heart disease diagnosis. Through deep learning models, we provide physicians with accurate diagnostic recommendations, heatmap visualization, and bounding box localization to help you efficiently perform CHD screening and diagnosis. The platform also offers teaching training modes to support physicians in improving diagnostic skills in a simulated environment.",
+    "description": "CHD-CARE is an AI-assisted platform specializing in congenital heart disease diagnosis. Through deep learning models, we provide physicians with accurate diagnostic recommendations, heatmap visualization, and bounding box localization to help you efficiently perform CHD screening and diagnosis. The platform also offers teaching training modes to support physicians in improving diagnostic skills in a simulated environment.",
     "loginButtonText": "Click to Login"
   },
   "keywords": [

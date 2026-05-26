@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="diagnosis.title">Diagnosis Interface - CHD-AIDE</title>
+    <title data-i18n="diagnosis.title">Diagnosis Interface - CHD-CARE (NCOMMS-26-037516)</title>
     <style>
         * {
             margin: 0;
@@ -1023,9 +1023,10 @@
         }
         body.has-bg::before { background-image: var(--bg-image, none); }
         /* 标题层 - 在背景上，内容下方 */
-        .title-overlay { position: fixed; top: 20px; left: 30px; z-index: -1; pointer-events: none; }
-        .title-overlay h1 { font-size: 28px; color: #1e293b; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); margin: 0; }
-        .title-overlay p { font-size: 14px; color: #64748b; margin: 5px 0 0 0; }
+        .title-overlay { position: fixed; top: 20px; left: 30px; z-index: 9999; pointer-events: none; display: block !important; }
+        .title-overlay h1 { position: relative; z-index: 9999; font-size: 28px; color: #1e293b; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); margin: 0; }
+        .title-overlay p { position: relative; z-index: 9999; font-size: 14px; color: #64748b; margin: 5px 0 0 0; }
+        .navbar { position: relative; z-index: 0; }
     </style>
 </head>
 <body>
@@ -1036,7 +1037,7 @@
     </div>
     <!-- 顶部导航栏 -->
     <div class="navbar">
-        <div class="navbar-title" id="navTitle" data-i18n="diagnosis.navTitleDiag">🩺 CHD-AIDE - Diagnosis Mode</div>
+        <div class="navbar-title" id="navTitle" data-i18n="diagnosis.navTitleDiag">🩺 CHD-CARE (NCOMMS-26-037516) - Diagnosis Mode</div>
         <div class="navbar-user">
             <span class="user-name" id="navUsername" data-i18n="loading">Loading...</span>
             <a href="javascript:void(0)" class="navbar-btn" id="navBackBtn" onclick="returnToDashboard()" data-i18n="diagnosis.backToDashboard">Back to Dashboard</a>
@@ -1553,7 +1554,7 @@
                 // 更新导航栏标题和返回按钮
                 const navTitle = document.getElementById('navTitle');
                 if (navTitle) {
-                    navTitle.textContent = getI18nText('diagnosis.navTitleEdu', '🎓 CHD-AIDE - Education Mode');
+                    navTitle.textContent = getI18nText('diagnosis.navTitleEdu', '🎓 CHD-CARE (NCOMMS-26-037516) - Education Mode');
                 }
                 const navBackBtn = document.getElementById('navBackBtn');
                 if (navBackBtn) {
@@ -3063,27 +3064,19 @@ function selectOption(element, group) {
             try {
                 const r = await fetch('/res/share/background_config.json');
                 const config = await r.json();
-                if (config.enabled) {
-                    // 背景图控制
+if (config.enabled) {
                     if (config.showBackground && config.image) {
                         document.body.style.setProperty('--bg-image', `url('/res/share/${config.image}')`);
                         document.body.classList.add('has-bg');
                     } else {
                         document.body.classList.remove('has-bg');
                     }
-                    // 标题控制
-                    if (config.showTitle) {
-                        document.getElementById('bg-title').textContent = config.title || '';
-                        document.getElementById('bg-subtitle').textContent = config.subtitle || '';
-                        document.getElementById('titleOverlay').style.display = 'block';
-                    } else {
-                        document.getElementById('titleOverlay').style.display = 'none';
-                    }
                 } else {
-                    document.getElementById('titleOverlay').style.display = 'none';
                     document.body.classList.remove('has-bg');
                 }
             } catch (e) { console.warn('背景配置加载失败:', e); }
+            document.getElementById('bg-title').textContent = '';
+            document.getElementById('bg-subtitle').textContent = '';
         })();
     </script>
 </body>

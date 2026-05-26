@@ -1,7 +1,7 @@
 {
-  "_comment": "CHD-AIDE Translation File - Chinese",
+  "_comment": "CHD-CARE Translation File - Chinese",
 
-  "flowTitle": "欢迎 - CHD-AIDE",
+  "flowTitle": "欢迎 - CHD-CARE (NCOMMS-26-037516)",
   "welcomeBack": "欢迎回来，{name}",
   "organization": "机构",
   "unknownOrg": "机构：未知机构",
@@ -201,8 +201,8 @@
   },
   "diagnosis": {
     "title": "诊断界面",
-    "navTitleDiag": "🩺 儿童先心病诊断平台 - 诊断模式",
-    "navTitleEdu": "🎓 儿童先心病诊断平台 - 教育模式",
+    "navTitleDiag": "🩺 儿童先心病诊断平台 (NCOMMS-26-037516) - 诊断模式",
+    "navTitleEdu": "🎓 儿童先心病诊断平台 (NCOMMS-26-037516) - 教育模式",
     "back": "返回",
     "backToDashboard": "返回主页",
     "patient": "病人",

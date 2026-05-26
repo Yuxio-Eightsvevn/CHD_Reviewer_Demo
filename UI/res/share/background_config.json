@@ -1,8 +1,8 @@
 {
   "enabled": true,
   "showBackground": true,
-  "showTitle": false,
-  "title": "儿童先心病超声诊断平台",
+  "showTitle": true,
+  "title": "CHD-CARE",
   "subtitle": "Intelligent Ultrasound Diagnosis Platform",
   "image": "BackGround1.jpeg",
   "style": {

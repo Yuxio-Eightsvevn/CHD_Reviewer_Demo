@@ -1,6 +1,6 @@
 {
-  "_comment": "CHD-AIDE Translation File - English",
-  "flowTitle": "Welcome - CHD-AIDE",
+  "_comment": "CHD-CARE Translation File - English",
+  "flowTitle": "Welcome - CHD-CARE (NCOMMS-26-037516)",
   "welcomeBack": "Welcome back, {name}",
   "organization": "Organization",
   "unknownOrg": "Organization: Unknown",
@@ -196,8 +196,8 @@
   },
   "diagnosis": {
     "title": "Case Review",
-    "navTitleDiag": "🩺 CHD-AIDE - Diagnosis",
-    "navTitleEdu": "🎓 CHD-AIDE - Education",
+    "navTitleDiag": "🩺 CHD-CARE (NCOMMS-26-037516) - Diagnosis",
+    "navTitleEdu": "🎓 CHD-CARE (NCOMMS-26-037516) - Education",
     "back": "Back",
     "backToDashboard": "Back Home",
     "patient": "Case",

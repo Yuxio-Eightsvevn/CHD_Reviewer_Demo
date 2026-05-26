@@ -2466,3 +2466,223 @@ if task_info_path.exists():
 **待实现**：定义未判读病例的默认诊断值（如 `-1` 表示未判读）或从 UI/UX 层面禁止用户跳过这些病例。
 
 ---
+
+## 十三、2026年5月更新记录
+
+### 13.1 国际化(i18n)框架搭建
+
+**更新内容**：
+- 创建 `UI/i18n/` 目录，包含 `lang_config.json`、`zh.json`、`en.json`
+- 编写 `loadI18n()`、`t()`、`getI18nText()` 函数
+- 所有 HTML 页面添加 `data-i18n` 属性支持翻译
+- `lang_config.json` 设为 `"current": "en"`（英文界面）
+
+**涉及文件**：
+| 文件 | 修改内容 |
+|------|----------|
+| UI/i18n/lang_config.json | 语言配置 |
+| UI/i18n/zh.json | 中文翻译（约170个键） |
+| UI/i18n/en.json | 英文翻译模板 |
+| UI/task_status.html | 完整国际化 |
+| UI/dashboard.html | 完整国际化 |
+| UI/diagnosis.html | 添加i18n基础设施 |
+| UI/flow.html | 添加i18n支持 |
+| UI/login.html | 简化并添加i18n |
+| UI/admin.html | 完整国际化 |
+
+**翻译框架使用方式**：
+```html
+<!-- HTML属性翻译 -->
+<span data-i18n="diagnosis.backToDashboard">Back to Dashboard</span>
+
+<!-- JavaScript动态文本 -->
+el.textContent = getI18nText('diagnosis.confirmSubmit', 'Confirm submit?');
+
+<!-- 占位符翻译 -->
+<input placeholder data-i18n-placeholder="login.usernamePlaceholder">
+```
+
+---
+
+### 13.2 教育模式隐藏
+
+**更新内容**：
+- `flow.html`：移除「教育模式」和「任务管理」按钮
+- `main.py`：注释掉 `/admin` 等4条路由（第1592、1614、1617、1622行）
+- `routes_oridata.py`：注释掉13条教育相关API路由
+
+**后端注释路由**：
+```python
+# [HIDDEN FOR REVIEW] @app.get("/admin")
+# async def serve_admin(): return FileResponse("UI/admin.html")
+```
+
+**注意**：评审员如需测试教育模式，需取消注释上述路由。
+
+---
+
+### 13.3 用户管理界面(admin.html)国际化
+
+**更新内容**：
+- 所有HTML静态文本添加 `data-i18n` 属性
+- JavaScript中的中文提示替换为 `t()` 函数调用
+- 添加约50个 `admin.*` 翻译键
+
+**翻译键示例**：
+| 键 | 中文 | 英文 |
+|----|------|------|
+| admin.title | 用户管理系统 | User Management |
+| admin.userList | 用户列表 | User List |
+| admin.addUser | 添加用户 | Add User |
+| admin.confirmDelete | 确定要删除用户吗？ | Are you sure you want to delete user? |
+
+---
+
+### 13.4 诊断界面(diagnosis.html)国际化
+
+**更新内容**：
+- 导航栏、诊断选项、模型置信度标签国际化
+- 诊断标准7个等级及描述翻译
+- 视频弹窗、提交按钮等国际化
+- 约80个 `diagnosis.*` 翻译键
+
+**新增HTML属性**：
+```html
+<button class="option-btn" data-i18n="diagnosis.normal" data-diagnosis-value="Normal">Normal</button>
+```
+
+---
+
+### 13.5 诊断值与显示文本分离
+
+**问题**：诊断保存/恢复依赖按钮文本（"Normal"、"VSD"等），切换语言后草稿恢复失败。
+
+**解决方案**：使用 `data-diagnosis-value` 属性存储内部值
+
+**修改代码**：
+```html
+<!-- HTML: 添加 data-diagnosis-value -->
+<button data-diagnosis-value="Normal">Normal</button>
+<button data-diagnosis-value="VSD">VSD</button>
+```
+
+```javascript
+// JavaScript: 使用属性值而非文本
+diagnosis: selectedDiagnosis.getAttribute('data-diagnosis-value')
+```
+
+**涉及函数**：
+- `saveCurrentDiagnosis()` / `saveCurrentDiagnosisQuietly()`
+- `restoreDiagnosisState()`
+- `getCurrentUiSelection()`
+
+---
+
+### 13.6 登录页面(login.html)简化
+
+**更新内容**：
+- 从669行精简至228行
+- 删除Header、TitleField、轮播图、Features区块
+- 仅保留居中"点击登录"按钮 + 登录弹窗
+- 创建 `login_config_en.json` 英文配置文件
+
+**精简后布局**：
+```
+┌─────────────────────────────┐
+│                             │
+│      [ Click to Login ]     │
+│                             │
+│  ┌───────────────────────┐   │
+│  │  Username    [____]   │   │
+│  │  Password    [____]   │   │
+│  │  [      Login      ]  │   │
+│  └───────────────────────┘   │
+└─────────────────────────────┘
+```
+
+---
+
+### 13.7 JSON文件重复键修复
+
+**问题**：`zh.json` 和 `en.json` 存在重复的 `viewReport` 键导致JSON解析警告。
+
+**修复**：
+- 删除 `diagnosis.*` 和 `admin.*` 区块末尾重复的 `viewReport` 键
+- 修复 `diagnosisCompleteMsg` 中的中文引号 `"查看报告"` 为 `&quot;查看报告&quot;`
+
+**验证命令**：
+```bash
+python -c "import json; json.load(open('UI/i18n/en.json','r',encoding='utf-8'))"
+```
+
+---
+
+### 13.8 登录页面缓存问题
+
+**问题**：`/` 和 `/login` 返回不同内容（缓存导致）。
+
+**原因**：`main.py` 中两个路由都返回 `UI/login.html`：
+```python
+@app.get("/")       # 返回 login.html
+@app.get("/login") # 返回 login.html（相同）
+```
+
+**解决**：强制刷新（Ctrl+Shift+R）或使用无痕模式访问。
+
+---
+
+## 十四、视频帧率(FPS)问题说明
+
+### 14.1 问题描述
+
+**现象**：热力图和bbox视频播放速度比原始视频快。
+
+**原因**：输出视频FPS硬编码为30.0，与原始视频FPS不匹配。
+
+### 14.2 根因分析
+
+| 位置 | FPS值 | 问题 |
+|------|-------|------|
+| `VideoWriter` (model/*.py) | 30.0硬编码 | 输出视频写死30FPS |
+| 前端关键帧计算 | 15.15硬编码 | 用15.15 FPS计算关键帧位置 |
+
+**示例**：如果原始视频是15 FPS：
+- 原始播放：300帧/15FPS = 20秒
+- 输出播放：300帧/30FPS = 10秒（帧率翻倍）
+
+### 14.3 模型推理文件FPS硬编码位置
+
+| 文件 | 行号 | 代码 |
+|------|------|------|
+| `model/heart_diagnosis.py` | 343-345 | `VideoWriter(..., 30.0, ...)` |
+| `model/interface1_batch.py` | 376-378 | `VideoWriter(..., 30.0, ...)` |
+| `model/interface2_api.py` | 375-377 | `VideoWriter(..., 30.0, ...)` |
+
+### 14.4 修复计划（已完成）
+
+**修改文件**：
+
+| 文件 | 修改后行号 | 修改内容 |
+|------|-----------|----------|
+| `model/heart_diagnosis.py` | 343-349 | 获取原始FPS并使用 |
+| `model/interface1_batch.py` | 376-382 | 获取原始FPS并使用 |
+| `model/interface2_api.py` | 375-381 | 获取原始FPS并使用 |
+
+**修改代码示例**：
+```python
+# 修改前
+vw_box = cv2.VideoWriter(..., 30.0, ...)
+
+# 修改后
+cap = cv2.VideoCapture(video_path)
+orig_fps = cap.get(cv2.CAP_PROP_FPS)
+cap.release()
+write_fps = orig_fps if orig_fps > 0 else 30.0
+vw_box = cv2.VideoWriter(..., write_fps, ...)
+```
+
+**生效时间**：
+- 新上传的视频将使用原始FPS
+- 已处理的视频需重新上传才会生效
+
+---

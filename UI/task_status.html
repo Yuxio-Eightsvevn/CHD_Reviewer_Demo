@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title data-i18n="taskStatus.title">Task Progress - CHD-AIDE</title>
+  <title data-i18n="taskStatus.title">Task Progress</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -83,7 +83,21 @@
       pointer-events: none;
     }
     body.has-bg::before { background-image: var(--bg-image, none); }
-    .title-overlay { position: fixed; top: 20px; left: 30px; z-index: -1; pointer-events: none; }
+    .title-overlay {
+      position: fixed;
+      top: 20px;
+      left: 30px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .title-overlay h1, .title-overlay p {
+      position: relative;
+      z-index: 9999;
+    }
+    .navbar {
+      position: relative;
+      z-index: 0;
+    }
     .title-overlay h1 { font-size: 28px; color: #1e293b; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); margin: 0; }
     .title-overlay p { font-size: 14px; color: #64748b; margin: 5px 0 0 0; }
   </style>
@@ -112,7 +126,7 @@
 
     <div class="main">
       <div class="navbar">
-        <div style="font-weight:700; font-size:18px;" data-i18n="taskStatus.uploadedTasks">Uploaded Tasks</div>
+        <div data-i18n="taskStatus.uploadedTasks">Uploaded Tasks</div>
         <button onclick="window.location.href='/dashboard'" class="btn btn-back" data-i18n="taskStatus.backToUpload">Back to Upload</button>
       </div>
 
@@ -477,30 +491,24 @@
 
     loadUser();
 
-    (async function initBackground() {
-      try {
-        const r = await fetch('/res/share/background_config.json');
-        const config = await r.json();
-        if (config.enabled) {
-          if (config.showBackground && config.image) {
-            document.body.style.setProperty('--bg-image', `url('/res/share/${config.image}')`);
-            document.body.classList.add('has-bg');
+(async function initBackground() {
+        try {
+          const r = await fetch('/res/share/background_config.json');
+          const config = await r.json();
+          if (config.enabled) {
+            if (config.showBackground && config.image) {
+              document.body.style.setProperty('--bg-image', `url('/res/share/${config.image}')`);
+              document.body.classList.add('has-bg');
+            } else {
+              document.body.classList.remove('has-bg');
+            }
           } else {
             document.body.classList.remove('has-bg');
           }
-          if (config.showTitle) {
-            document.getElementById('bg-title').textContent = config.title || '';
-            document.getElementById('bg-subtitle').textContent = config.subtitle || '';
-            document.getElementById('titleOverlay').style.display = 'block';
-          } else {
-            document.getElementById('titleOverlay').style.display = 'none';
-          }
-        } else {
-          document.getElementById('titleOverlay').style.display = 'none';
-          document.body.classList.remove('has-bg');
-        }
-      } catch (e) { console.warn('Background config load failed:', e); }
-    })();
+        } catch (e) { console.warn('Background config load failed:', e); }
+        document.getElementById('bg-title').textContent = '';
+        document.getElementById('bg-subtitle').textContent = '';
+      })();
   </script>
 </body>
 </html>

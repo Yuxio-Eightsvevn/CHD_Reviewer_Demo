@@ -373,8 +373,12 @@ def save_visuals(video_path, result, output_dir, video_name):
     h_roi_bgr = cv2.applyColorMap(np.uint8(255 * h_roi_norm), cv2.COLORMAP_JET)
     
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    vw_box = cv2.VideoWriter(os.path.join(output_dir, f"{video_name}_bbox.mp4"), fourcc, 30.0, (w_orig, h_orig))
-    vw_heat = cv2.VideoWriter(os.path.join(output_dir, f"{video_name}_heatmap.mp4"), fourcc, 30.0, (w_orig, h_orig))
+    cap = cv2.VideoCapture(video_path)
+    orig_fps = cap.get(cv2.CAP_PROP_FPS)
+    cap.release()
+    write_fps = orig_fps if orig_fps > 0 else 30.0
+    vw_box = cv2.VideoWriter(os.path.join(output_dir, f"{video_name}_bbox.mp4"), fourcc, write_fps, (w_orig, h_orig))
+    vw_heat = cv2.VideoWriter(os.path.join(output_dir, f"{video_name}_heatmap.mp4"), fourcc, write_fps, (w_orig, h_orig))
     
     bx = result['bbox']
     kf = result['kf']
