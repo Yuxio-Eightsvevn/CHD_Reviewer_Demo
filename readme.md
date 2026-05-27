@@ -2686,3 +2686,70 @@ vw_box = cv2.VideoWriter(..., write_fps, ...)
 - 已处理的视频需重新上传才会生效
 
 ---
+
+## 15. 诊断模式报告字段修复
+
+### 15.1 问题描述
+
+在诊断模式（diag mode）下，医师诊断结论 JSON 文件中包含 `eduSubMode` 和 `severity` 字段，但这两个字段在诊断模式下始终为 `null`，属于冗余数据。
+
+### 15.2 问题代码
+
+**文件**：`UI/diagnosis.html`
+
+**原代码（Line 2935-2961）**：
+```javascript
+const diagnosisData = {
+    username: taskInfo.username,
+    taskFolder: taskInfo.taskFolder,
+    mode: currentMode,
+    eduSubMode: currentMode === 'edu' ? eduSubMode : null, // 诊断模式下始终为 null
+    // ...
+    records: Object.values(diagnosisRecords).map(record => ({
+        // ...
+        severity: record.severity, // 诊断模式下始终为 null
+        // ...
+    })),
+    // ...
+};
+```
+
+### 15.3 修复方案
+
+**修改逻辑**：诊断模式下完全不包含 `eduSubMode` 和 `severity` 字段，仅在教育模式下保留。
+
+**修复后代码**：
+```javascript
+const diagnosisData = {
+    username: taskInfo.username,
+    taskFolder: taskInfo.taskFolder,
+    mode: currentMode,
+    // 诊断模式下不包含 eduSubMode 字段
+    submittedAt: new Date().toLocaleString('zh-CN', { /* ... */ }),
+    totalTime: { seconds: timerSeconds, formatted: formattedTime },
+    patientCount: Object.keys(diagnosisRecords).length,
+    records: Object.values(diagnosisRecords).map(record => {
+        const baseRecord = {
+            patientId: record.patientId,
+            diagnosis: record.diagnosis,
+            viewTime: patientViewTimes[record.patientId] || 0
+        };
+        // 仅在教育模式下包含 eduSubMode 和 severity
+        if (currentMode === 'edu') {
+            baseRecord.eduSubMode = eduSubMode;
+            baseRecord.severity = record.severity;
+        }
+        return baseRecord;
+    }),
+    skip_llm: taskInfo.rerunMode || false
+};
+```
+
+### 15.4 修复效果
+
+| 字段 | 诊断模式 (diag) | 教育模式 (edu) |
+|------|----------------|----------------|
+| `eduSubMode` | 不包含 | `'single'` / `'assist'` / `'review'` |
+| `severity` | 不包含 | `1-7` (等级数值) |
+
+---
