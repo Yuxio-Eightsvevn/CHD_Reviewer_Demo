@@ -2956,14 +2956,12 @@ function selectOption(element, group) {
                                 diagnosis: record.diagnosis,
                                 viewTime: patientViewTimes[record.patientId] || 0
                             };
-                            // 诊断模式下不包含 eduSubMode 和 severity
                             if (currentMode === 'edu') {
                                 baseRecord.eduSubMode = eduSubMode;
                                 baseRecord.severity = record.severity;
                             }
                             return baseRecord;
-                        }),
-                        skip_llm: taskInfo.rerunMode || false
+                        })
                     };
                     
                     // 调用后端API保存诊断结果(JSON格式)

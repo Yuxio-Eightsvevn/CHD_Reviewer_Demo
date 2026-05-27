@@ -2745,11 +2745,32 @@ const diagnosisData = {
 };
 ```
 
-### 15.4 修复效果
+### 15.4 修复方案（实际执行）
+
+**问题根源**：后端 `main.py` 的 `submit_diagnosis_json` 函数直接保存整个 Pydantic 请求对象，而 `DiagnosisSubmitJsonRequest` 模型中的 `eduSubMode` 和 `skip_llm` 有默认值，导致即使前端不发送这些字段，后端保存时仍会包含默认值 `null` 和 `false`。
+
+**修复文件**：`main.py` 第 1270-1278 行
+
+**修复代码**：
+```python
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+json_filename = f"final_diagnosis_report_{timestamp}.json"
+with open(task_path / json_filename, 'w', encoding='utf-8') as f:
+    data_to_save = request.model_dump() if hasattr(request, 'model_dump') else request.dict()
+    if request.mode == "diag":
+        data_to_save.pop('eduSubMode', None)
+        data_to_save.pop('skip_llm', None)
+        for record in data_to_save.get('records', []):
+            record.pop('severity', None)
+    json.dump(data_to_save, f, ensure_ascii=False, indent=2)
+```
+
+### 15.5 修复效果
 
 | 字段 | 诊断模式 (diag) | 教育模式 (edu) |
 |------|----------------|----------------|
 | `eduSubMode` | 不包含 | `'single'` / `'assist'` / `'review'` |
 | `severity` | 不包含 | `1-7` (等级数值) |
+| `skip_llm` | 不包含 | `false` (默认值) |
 
 ---

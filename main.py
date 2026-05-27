@@ -1271,6 +1271,11 @@ async def submit_diagnosis_json(request: DiagnosisSubmitJsonRequest):
             json_filename = f"final_diagnosis_report_{timestamp}.json"
             with open(task_path / json_filename, 'w', encoding='utf-8') as f:
                 data_to_save = request.model_dump() if hasattr(request, 'model_dump') else request.dict()
+                if request.mode == "diag":
+                    data_to_save.pop('eduSubMode', None)
+                    data_to_save.pop('skip_llm', None)
+                    for record in data_to_save.get('records', []):
+                        record.pop('severity', None)
                 json.dump(data_to_save, f, ensure_ascii=False, indent=2)
             
             return {"message": "结论已归档", "filename": json_filename}
